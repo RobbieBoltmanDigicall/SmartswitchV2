@@ -32,6 +32,7 @@ namespace APIService.Controllers
                 // TODO: log failure in error table
                 throw new Exception($"Failed to send claim payload. Status code: {response.StatusCode}");
             }
+
             return new ResponseModel();
         }
     }
