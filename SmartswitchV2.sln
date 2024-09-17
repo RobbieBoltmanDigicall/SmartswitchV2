@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClaimsService", "APIService\ClaimsService.csproj", "{0DC385E1-A0BE-4A34-A343-5E929F17F4A3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClaimsManager", "APIManager\ClaimsManager.csproj", "{2AC55C62-DDF3-42FC-B0A7-3D02775158F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIManager", "APIManager\APIManager.csproj", "{2AC55C62-DDF3-42FC-B0A7-3D02775158F2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "USSDGenerator", "USSDGenerator\USSDGenerator.csproj", "{E9254963-A308-4BC1-9357-DA60BCA58E21}"
 EndProject
