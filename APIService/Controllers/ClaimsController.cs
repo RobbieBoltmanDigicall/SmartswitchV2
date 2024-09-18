@@ -1,4 +1,5 @@
 ﻿using APIService.Models;
+using ClaimsService.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -15,11 +16,11 @@ namespace APIService.Controllers
     public class ClaimsController : ControllerBase
     {
         [HttpPost("CreateClaim")]
-        public async Task<ResponseModel> CreateClaim(ClaimModel requestDetail)
+        public async Task<ResponseModel> CreateClaim(RequestModel requestDetail)
         {
             var _httpClient = new HttpClient();
 
-            var jsonPayload = JsonConvert.SerializeObject(requestDetail.ClaimsBody);
+            var jsonPayload = JsonConvert.SerializeObject(requestDetail.requestDetail);
             var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
             // TODO: Add logging
 

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 
-namespace ClaimsService.Repository
+namespace ClaimsService.DAL
 {
     public class SmartSwitchContext(DbContextOptions<SmartSwitchContext> options) : DbContext(options)
     {

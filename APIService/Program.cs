@@ -1,4 +1,4 @@
-using ClaimsService.Repository;
+using ClaimsService.DAL;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

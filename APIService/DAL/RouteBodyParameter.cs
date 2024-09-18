@@ -1,4 +1,4 @@
-﻿namespace ClaimsService.Repository
+﻿namespace ClaimsService.DAL
 {
     public class RouteBodyParameter
     {

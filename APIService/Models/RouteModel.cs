@@ -1,5 +1,5 @@
 ﻿using ClaimsService.Enums;
-using ClaimsService.Repository;
+using ClaimsService.DAL;
 
 namespace ClaimsService.Models
 {
