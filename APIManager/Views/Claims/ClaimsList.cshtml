@@ -1,0 +1,63 @@
+﻿@using APIManager.Models.Claims
+
+@model List<RouteViewModel>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Routes</title>
+</head>
+<body>
+    <h1>All Routes</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Route Type</th>
+                <th>Route Path</th>
+                <th>Order</th>
+                <th>Method Type</th>
+                <th>Clients</th>
+                <th>Headers</th>
+                <th>Parameters</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var route in Model)
+            {
+                <tr>
+                    <td>@route.Id</td>
+                    <td>@route.RouteType</td>
+                    <td>@route.RoutePath</td>
+                    <td>@route.Order</td>
+                    <td>@route.MethodType</td>
+                    <td>
+                        <ul>
+                            @foreach (var client in route.Clients)
+                            {
+                                <li>@client</li>
+                            }
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            @foreach (var header in route.RouteHeaders)
+                            {
+                                <li>@header.HeaderKey: @header.HeaderValue (@header.DataTypeName)</li>
+                            }
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            @foreach (var parameter in route.RouteParameters)
+                            {
+                                <li>@parameter.ParameterKey: @parameter.ParameterValue (@parameter.DataTypeName)</li>
+                            }
+                        </ul>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>

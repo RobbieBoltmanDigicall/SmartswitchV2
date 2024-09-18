@@ -4,6 +4,7 @@ namespace ClaimsService.Models.Repositories.Interfaces
 {
     public interface IRouteRepository
     {
+        List<Route> GetAllRoutes();
         List<Route> GetAllRoutesForClient(int clientId);
         Route GetRouteModelByRouteId(int routeId);
         bool UpdateRoute(Route route);        

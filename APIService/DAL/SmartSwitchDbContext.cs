@@ -88,6 +88,11 @@ namespace ClaimsService.DAL
                 .WithMany(r => r.ResponseHeaders)
                 .HasForeignKey(rh => rh.Id);
 
+            modelBuilder.Entity<Response>()
+                .HasOne(r => r.ResponseBody)
+                .WithOne(rb => rb.Response)
+                .HasForeignKey<ResponseBody>(r => r.Id);
+
             modelBuilder.Entity<Client>()
                 .HasMany(e => e.Routes)
                 .WithMany(e => e.Clients)

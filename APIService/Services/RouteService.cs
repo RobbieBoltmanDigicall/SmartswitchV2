@@ -14,6 +14,10 @@ namespace ClaimsService.Services
             _responseRepository = responseRepository;
         }
 
+        public List<Route> GetAllRoutes() =>        
+            _routeRepository.GetAllRoutes();
+        
+
         public Route GetRouteById(int routeId) =>
             _routeRepository.GetRouteModelByRouteId(routeId);
         
