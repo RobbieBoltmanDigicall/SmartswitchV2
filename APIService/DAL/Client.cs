@@ -4,6 +4,6 @@
     {
         public int Id { get; set; }
         public string ClientName { get; set; }
-        public List<Route> Routes { get; set; }
+        public ICollection<Route> Routes { get; set; }
     }
 }

@@ -3,9 +3,9 @@
     public class ResponseBodyParameter
     {
         public int Id { get; set; }
-        public int ResponseBodyId { get; set; }
+        public ResponseBody ResponseBody { get; set; }
         public string Key { get; set; }
         public string Value { get; set; }
-        public int DataTypeId { get; set; }
+        public DataType DataType { get; set; }
     }
 }
