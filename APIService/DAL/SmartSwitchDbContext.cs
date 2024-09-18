@@ -3,7 +3,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace ClaimsService.DAL
 {
-    public class SmartSwitchContext(DbContextOptions<SmartSwitchContext> options) : DbContext(options)
+    public class SmartSwitchDbContext(DbContextOptions<SmartSwitchDbContext> options) : DbContext(options)
     {
         public virtual DbSet<ApplicationType> ApplicationTypes { get; set; }
         public virtual DbSet<BodyType> BodyTypes { get; set; }

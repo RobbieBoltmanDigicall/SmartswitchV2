@@ -1,5 +1,4 @@
-﻿using APIService.Models;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 
 namespace ClaimsService.Helpers
 {
