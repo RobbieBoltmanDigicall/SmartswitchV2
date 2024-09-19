@@ -18,10 +18,8 @@
                             <tr>
                                 <th>Client</th>
                                 <th>Route Path</th>
-                                <th>Headers</th>
-                                <th>Parameters</th>
                                 <th>Method Type</th>
-                                <th class="text-end">Action</th>
+                                <th>Body parameters</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -36,19 +34,23 @@
                                         </div>
                                     </td>
                                     <td>@route.RoutePath</td>
-                                    <td>@route.RouteHeaders?.FirstOrDefault()?.HeaderKey</td>
-                                    <td>@route.RouteParameters?.FirstOrDefault()?.ParameterKey</td>
-                                    <td>@route.MethodType</td>
+                                    <td>@route.MethodType?.MethodTypeName</td>
                                     <td class="text-end">
-                                        <div class="drodown">
-                                            <a data-bs-toggle="dropdown" href="#" class="btn p-1" aria-expanded="false">
-                                                <i class="fa fa-bars" aria-hidden="true"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-end" style="">
-                                                <a href="#!" class="dropdown-item">View Route</a>
-                                                <a href="#!" class="dropdown-item">Delete Route</a>
-                                            </div>
-                                        </div>
+                                        <table>
+                                            <thead>
+                                                <th>Parameter</th>
+                                            </thead>
+                                            <tbody>
+                                                @if (route.RouteBody != null){
+                                                @foreach(var param in route.RouteBody.RouteBodyParameters)
+                                                {
+                                                    <tr>
+                                                        <td>@param?.BodyKey</td>
+                                                    </tr>
+                                                }
+                                                }
+                                            </tbody>
+                                        </table>
                                     </td>
                                 </tr>
                             }
