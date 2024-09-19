@@ -2,7 +2,7 @@
 {
     public class BodyType
     {
-        public int Id { get; set; }
+        public int BodyTypeId { get; set; }
         public string BodyTypeName { get; set; }
     }
 }

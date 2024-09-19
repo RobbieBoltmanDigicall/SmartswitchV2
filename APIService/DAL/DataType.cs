@@ -2,7 +2,7 @@
 {
     public class DataType
     {
-        public int Id { get; set; }
+        public int DataTypeId { get; set; }
         public string DataTypeName { get; set; } 
     }
 }

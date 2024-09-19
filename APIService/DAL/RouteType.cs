@@ -2,7 +2,7 @@
 {
     public class RouteType
     {
-        public int Id { get; set; }
+        public int RouteTypeId { get; set; }
         public string RouteTypeName { get; set; }
         public Route Route { get; set; }
     }

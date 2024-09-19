@@ -2,7 +2,7 @@
 {
     public class ResponseBodyParameter
     {
-        public int Id { get; set; }
+        public int ResponseBodyParameterId { get; set; }
         public ResponseBody ResponseBody { get; set; }
         public string Key { get; set; }
         public string Value { get; set; }

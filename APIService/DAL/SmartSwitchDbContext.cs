@@ -26,80 +26,80 @@ namespace ClaimsService.DAL
             modelBuilder.Entity<Route>()
                 .HasOne(r => r.RouteBody)
                 .WithOne(rb => rb.Route)
-                .HasForeignKey<RouteBody>(rb => rb.Id);
+                .HasForeignKey<RouteBody>(rb => rb.RouteId);
 
-            modelBuilder.Entity<Route>()
-                .HasOne(r => r.MethodType)
-                .WithOne(m => m.Route)
-                .HasForeignKey<MethodType>(m => m.Id);
+            modelBuilder.Entity<MethodType>()
+                .HasOne(m => m.Route)
+                .WithOne(r => r.MethodType)
+                .HasForeignKey<Route>(r => r.MethodTypeId);
 
-            modelBuilder.Entity<Route>()
-                .HasOne(r => r.RouteType)
-                .WithOne(rt => rt.Route)
-                .HasForeignKey<RouteType>(rt => rt.Id);
+            modelBuilder.Entity<RouteType>()
+                .HasOne(r => r.Route)
+                .WithOne(rt => rt.RouteType)
+                .HasForeignKey<Route>(rt => rt.RouteTypeId);
 
             modelBuilder.Entity<RouteHeader>()
                 .HasOne(rh => rh.Route)
                 .WithMany(r => r.RouteHeaders)
-                .HasForeignKey(rh => rh.Id);
+                .HasForeignKey(rh => rh.RouteId);
 
             modelBuilder.Entity<RouteHeader>()
                 .HasOne(rh => rh.DataType)
                 .WithOne()
-                .HasForeignKey<DataType>(d => d.Id);
+                .HasForeignKey<DataType>(d => d.DataTypeId);
 
             modelBuilder.Entity<RouteParameter>()
                 .HasOne(rp => rp.Route)
                 .WithMany(rp => rp.RouteParameters)
-                .HasForeignKey(rp => rp.Id);
+                .HasForeignKey(rp => rp.RouteId);
 
             modelBuilder.Entity<RouteParameter>()
-                .HasOne(rh => rh.DataType)
+                .HasOne(rp => rp.DataType)
                 .WithOne()
-                .HasForeignKey<DataType>(d => d.Id);
+                .HasForeignKey<RouteParameter>(rp => rp.DataTypeId);
 
             modelBuilder.Entity<Route>()
                 .HasOne(r => r.Response)
                 .WithOne(r => r.Route)
-                .HasForeignKey<Response>(r => r.Id);
+                .HasForeignKey<Response>(r => r.ResponseId);
 
             modelBuilder.Entity<RouteBodyParameter>()
                 .HasOne(rp => rp.RouteBody)
                 .WithMany(rp => rp.RouteBodyParameters)
-                .HasForeignKey(rp => rp.Id);
+                .HasForeignKey(rp => rp.RouteBodyId);
 
             modelBuilder.Entity<RouteBodyParameter>()
                 .HasOne(r => r.DataType)
                 .WithOne()
-                .HasForeignKey<DataType>(d => d.Id);
+                .HasForeignKey<DataType>(d => d.DataTypeId);
 
             modelBuilder.Entity<ResponseHeader>()
                 .HasOne(r => r.DataType)
                 .WithOne()
-                .HasForeignKey<DataType>(d => d.Id);
+                .HasForeignKey<DataType>(d => d.DataTypeId);
 
             modelBuilder.Entity<ResponseBodyParameter>()
                 .HasOne(r => r.DataType)
                 .WithOne()
-                .HasForeignKey<DataType>(d => d.Id);
+                .HasForeignKey<DataType>(d => d.DataTypeId);
 
             modelBuilder.Entity<ResponseHeader>()
                 .HasOne(rh => rh.Response)
                 .WithMany(r => r.ResponseHeaders)
-                .HasForeignKey(rh => rh.Id);
+                .HasForeignKey(rh => rh.ResponseHeaderId);
 
-            modelBuilder.Entity<Response>()
-                .HasOne(r => r.ResponseBody)
-                .WithOne(rb => rb.Response)
-                .HasForeignKey<ResponseBody>(r => r.Id);
+            modelBuilder.Entity<ResponseBody>()
+                .HasOne(r => r.Response)
+                .WithOne(rb => rb.ResponseBody)
+                .HasForeignKey<ResponseBody>(r => r.ResponseId);
 
             modelBuilder.Entity<Client>()
                 .HasMany(e => e.Routes)
                 .WithMany(e => e.Clients)
                 .UsingEntity(
                     "ClientRoute",
-                    l => l.HasOne(typeof(Route)).WithMany().HasForeignKey("RouteId").HasPrincipalKey(nameof(Route.Id)),
-                    r => r.HasOne(typeof(Client)).WithMany().HasForeignKey("ClientId").HasPrincipalKey(nameof(Client.Id)),
+                    l => l.HasOne(typeof(Route)).WithMany().HasForeignKey("RouteId").HasPrincipalKey(nameof(Route.RouteId)),
+                    r => r.HasOne(typeof(Client)).WithMany().HasForeignKey("ClientId").HasPrincipalKey(nameof(Client.ClientId)),
                     j => j.HasKey("ClientId", "RouteId"));
 
             //TODO: Finish the relationships

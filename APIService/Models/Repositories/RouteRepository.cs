@@ -68,7 +68,7 @@ namespace ClaimsService.Models.Repositories
                 .Include(r => r.RouteType)
                 .Include(r => r.MethodType)
                 .Include(r => r.Clients)
-                .Where(r => r.Clients.Any(c => c.Id == clientId))
+                .Where(r => r.Clients.Any(c => c.ClientId == clientId))
                 .ToList();
 #pragma warning restore CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
 
@@ -95,7 +95,7 @@ namespace ClaimsService.Models.Repositories
                 .Include(r => r.RouteType)
                 .Include(r => r.MethodType)
                 .Include(r => r.Clients)
-                .FirstOrDefault(r => r.Id == routeId);
+                .FirstOrDefault(r => r.RouteId == routeId);
 #pragma warning restore CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
 
             if (result == null)
