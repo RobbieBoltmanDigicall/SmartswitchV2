@@ -1,6 +1,6 @@
 ﻿@using APIManager.Models.Claims
 
-@model List<RouteViewModel>
+@model List<Route>
 
 <!DOCTYPE html>
 <html>
@@ -26,7 +26,7 @@
             @foreach (var route in Model)
             {
                 <tr>
-                    <td>@route.Id</td>
+                    <td>@route.RouteId</td>
                     <td>@route.RouteType</td>
                     <td>@route.RoutePath</td>
                     <td>@route.Order</td>
@@ -39,7 +39,7 @@
                             }
                         </ul>
                     </td>
-                    <td>
+@*                     <td>
                         <ul>
                             @foreach (var header in route.RouteHeaders)
                             {
@@ -54,7 +54,7 @@
                                 <li>@parameter.ParameterKey: @parameter.ParameterValue (@parameter.DataTypeName)</li>
                             }
                         </ul>
-                    </td>
+                    </td> *@
                 </tr>
             }
         </tbody>
