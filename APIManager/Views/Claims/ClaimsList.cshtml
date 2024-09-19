@@ -2,62 +2,60 @@
 
 @model List<Route>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>All Routes</title>
-</head>
-<body>
-    <h1>All Routes</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Route Type</th>
-                <th>Route Path</th>
-                <th>Order</th>
-                <th>Method Type</th>
-                <th>Clients</th>
-                <th>Headers</th>
-                <th>Parameters</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var route in Model)
-            {
-                <tr>
-                    <td>@route.RouteId</td>
-                    <td>@route.RouteType</td>
-                    <td>@route.RoutePath</td>
-                    <td>@route.Order</td>
-                    <td>@route.MethodType</td>
-                    <td>
-                        <ul>
-                            @foreach (var client in route.Clients)
+<h1>Claims Manager</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 mb-3 mb-lg-5">
+            <div class="overflow-hidden card table-nowrap table-card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Claims List</h5>
+                    <a href="#!" class="btn btn-light btn-sm">View All</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead class="small text-uppercase bg-body text-muted">
+                            <tr>
+                                <th>Client</th>
+                                <th>Route Path</th>
+                                <th>Headers</th>
+                                <th>Parameters</th>
+                                <th>Method Type</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var route in Model)
                             {
-                                <li>@client</li>
+                                <tr class="align-middle">
+                                    <td>
+                                        <div class="d-flex align-items-center">                                            
+                                            <div>
+                                                <div class="h6 mb-0 lh-1">@route.Clients.First().ClientName</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>@route.RoutePath</td>
+                                    <td>@route.RouteHeaders?.FirstOrDefault()?.HeaderKey</td>
+                                    <td>@route.RouteParameters?.FirstOrDefault()?.ParameterKey</td>
+                                    <td>@route.MethodType</td>
+                                    <td class="text-end">
+                                        <div class="drodown">
+                                            <a data-bs-toggle="dropdown" href="#" class="btn p-1" aria-expanded="false">
+                                                <i class="fa fa-bars" aria-hidden="true"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-end" style="">
+                                                <a href="#!" class="dropdown-item">View Route</a>
+                                                <a href="#!" class="dropdown-item">Delete Route</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                             }
-                        </ul>
-                    </td>
-@*                     <td>
-                        <ul>
-                            @foreach (var header in route.RouteHeaders)
-                            {
-                                <li>@header.HeaderKey: @header.HeaderValue (@header.DataTypeName)</li>
-                            }
-                        </ul>
-                    </td>
-                    <td>
-                        <ul>
-                            @foreach (var parameter in route.RouteParameters)
-                            {
-                                <li>@parameter.ParameterKey: @parameter.ParameterValue (@parameter.DataTypeName)</li>
-                            }
-                        </ul>
-                    </td> *@
-                </tr>
-            }
-        </tbody>
-    </table>
-</body>
-</html>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
