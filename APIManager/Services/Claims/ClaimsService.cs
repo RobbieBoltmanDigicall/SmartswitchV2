@@ -2,7 +2,7 @@
 using APIManager.Models.Claims;
 using Newtonsoft.Json;
 using System.Net.Http;
-using Route = APIManager.Models.Claims.Route;
+using RequestViewModel = APIManager.Models.Claims.RequestViewModel;
 
 namespace APIManager.Services.Claims
 {
@@ -20,12 +20,12 @@ namespace APIManager.Services.Claims
             _httpClient.BaseAddress = new Uri(_config.GetValue<string>("AppSettings:ClaimsServiceUrl"));
         }
 
-        public async Task<Route> GetClaimRouteById(int claimId)
+        public async Task<RequestViewModel> GetClaimRouteById(int claimId)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<List<Route>> ListAllClaimRoutes()
+        public async Task<List<RequestViewModel>> ListAllClaimRoutes()
         {
             var response = await _httpClient.GetAsync("GetAllRoutes");
 
@@ -36,17 +36,17 @@ namespace APIManager.Services.Claims
             }
 
             var content = await response.Content.ReadAsStringAsync();
-            var listRoutes = JsonConvert.DeserializeObject<List<Route>>(content);
+            var listRoutes = JsonConvert.DeserializeObject<List<RequestViewModel>>(content);
 
             return listRoutes;
         }
 
-        public async Task<List<Route>> ListAllClaimRoutesByClientId(int clientId)
+        public async Task<List<RequestViewModel>> ListAllClaimRoutesByClientId(int clientId)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<List<Client>> ListAllClients()
+        public async Task<List<ClientViewModel>> ListAllClients()
         {
             throw new NotImplementedException();
         }

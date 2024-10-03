@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using System.Net.Http;
-using Route = APIManager.Models.Claims.Route;
+using Route = APIManager.Models.Claims.RequestViewModel;
 using APIManager.Services.Claims;
 
 namespace APIManager.Controllers

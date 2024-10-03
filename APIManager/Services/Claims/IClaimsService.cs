@@ -1,13 +1,13 @@
 ﻿using APIManager.Models.Claims;
-using Route = APIManager.Models.Claims.Route;
+using RequestViewModel = APIManager.Models.Claims.RequestViewModel;
 
 namespace APIManager.Services.Claims
 {
     public interface IClaimsService
     {
-        Task<List<Route>> ListAllClaimRoutes();
-        Task<List<Route>> ListAllClaimRoutesByClientId(int clientId);
-        Task<List<Client>> ListAllClients();
-        Task<Route> GetClaimRouteById(int claimId);
+        Task<List<RequestViewModel>> ListAllClaimRoutes();
+        Task<List<RequestViewModel>> ListAllClaimRoutesByClientId(int clientId);
+        Task<List<ClientViewModel>> ListAllClients();
+        Task<RequestViewModel> GetClaimRouteById(int claimId);
     }
 }
