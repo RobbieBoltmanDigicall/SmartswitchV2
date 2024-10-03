@@ -4,18 +4,21 @@ using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using System.Net.Http;
 using Route = APIManager.Models.Claims.Route;
+using APIManager.Services.Claims;
 
 namespace APIManager.Controllers
 {
     public class ClaimsController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IClaimsService _claimsService;
 
-        public ClaimsController(ILogger<HomeController> logger, IHttpClientFactory httpClientFactory)
+        public ClaimsController(ILogger<HomeController> logger, 
+            IClaimsService claimsService
+            )
         {
             _logger = logger;
-            _httpClientFactory = httpClientFactory;
+            _claimsService = claimsService;
         }
 
         public IActionResult Index()
@@ -25,19 +28,13 @@ namespace APIManager.Controllers
 
         public async Task<IActionResult> ClaimsList()
         {
-            var client = _httpClientFactory.CreateClient();
-            var response = await client.GetAsync("http://localhost:5003/ManagerAPI/GetAllRoutes");
-
-            if (!response.IsSuccessStatusCode)
-            {
-                return StatusCode((int)response.StatusCode, "Error retrieving data from the external API.");
-            }
-
-            var content = await response.Content.ReadAsStringAsync();
-
-            var viewModel = JsonConvert.DeserializeObject<List<Route>>(content);
-
+            var viewModel = await _claimsService.ListAllClaimRoutes();
             return View("~/Views/Claims/ClaimsList.cshtml", viewModel);
+        }
+
+        public async Task<IActionResult> ClientList()
+        {
+            return View();
         }
     }
 }
