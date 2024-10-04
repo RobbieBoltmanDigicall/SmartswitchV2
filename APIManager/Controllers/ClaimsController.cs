@@ -1,9 +1,8 @@
-﻿using APIManager.Models.Claims;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json;
 using System.Net.Http;
-using Route = APIManager.Models.Claims.RequestViewModel;
+using Route = APIManager.Models.RequestViewModel;
 using APIManager.Services.Claims;
 
 namespace APIManager.Controllers
@@ -28,7 +27,7 @@ namespace APIManager.Controllers
 
         public async Task<IActionResult> ClaimsList()
         {
-            var viewModel = await _claimsService.ListAllClaimRoutes();
+            var viewModel = await _claimsService.ListAllClaimRoutes(false);
             return View("~/Views/Claims/ClaimsList.cshtml", viewModel);
         }
 

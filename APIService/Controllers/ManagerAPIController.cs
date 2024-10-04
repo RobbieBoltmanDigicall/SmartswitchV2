@@ -22,9 +22,9 @@ namespace ClaimsService.Controllers
 
 
         [HttpGet("GetAllRoutes")]
-        public List<Route> GetAllRoutes()
+        public List<Route> GetAllRoutes(bool lazyLoad)
         {
-            return _routeService.GetAllRoutes();
+            return _routeService.GetAllRoutes(lazyLoad);
         }
 
     }

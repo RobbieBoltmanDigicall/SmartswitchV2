@@ -1,4 +1,4 @@
-﻿namespace APIManager.Models.Claims
+﻿namespace APIManager.Models
 {
     public class RouteBodyParameter
     {

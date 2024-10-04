@@ -1,8 +1,8 @@
 ﻿using APIManager.Controllers;
-using APIManager.Models.Claims;
+using APIManager.Models;
 using Newtonsoft.Json;
 using System.Net.Http;
-using RequestViewModel = APIManager.Models.Claims.RequestViewModel;
+using RequestViewModel = APIManager.Models.RequestViewModel;
 
 namespace APIManager.Services.Claims
 {
@@ -25,9 +25,9 @@ namespace APIManager.Services.Claims
             throw new NotImplementedException();
         }
 
-        public async Task<List<RequestViewModel>> ListAllClaimRoutes()
+        public async Task<List<RequestViewModel>> ListAllClaimRoutes(bool lazyLoad = true)
         {
-            var response = await _httpClient.GetAsync("GetAllRoutes");
+            var response = await _httpClient.GetAsync($"GetAllRoutes?lazyLoad={lazyLoad}");
 
             if (!response.IsSuccessStatusCode)
             {

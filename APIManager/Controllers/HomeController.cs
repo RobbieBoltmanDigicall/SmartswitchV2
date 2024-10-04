@@ -1,11 +1,6 @@
 using APIManager.Models;
-using APIManager.Models.Claims;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using APIManager.Models.Claims;
-using System.Net.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace APIManager.Controllers
 {

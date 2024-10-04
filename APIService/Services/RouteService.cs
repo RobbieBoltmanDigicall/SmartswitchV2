@@ -17,8 +17,8 @@ namespace ClaimsService.Services
             _responseRepository = responseRepository;
         }
 
-        public List<Route> GetAllRoutes() =>        
-            _routeRepository.GetAllRoutes();
+        public List<Route> GetAllRoutes(bool lazyLoad) =>        
+            _routeRepository.GetAllRoutes(lazyLoad);
         
 
         public Route GetRouteById(int routeId) =>

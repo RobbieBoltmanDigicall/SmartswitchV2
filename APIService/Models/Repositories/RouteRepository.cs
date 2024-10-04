@@ -24,28 +24,41 @@ namespace ClaimsService.Models.Repositories
             throw new NotImplementedException();
         }
 
-        public List<Route> GetAllRoutes()
+        public List<Route> GetAllRoutes(bool lazyLoad = true)
         {
+            if (!lazyLoad)
+            {
 #pragma warning disable CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
-            var result = _context.Routes
-                .Include(r => r.RouteBody)
-                    .ThenInclude(rb => rb.RouteBodyParameters)
-                        .ThenInclude(rbp => rbp.DataType)
-                .Include(r => r.RouteBody)
-                    .ThenInclude(rb => rb.ApplicationType)
-                .Include(r => r.RouteBody)
-                    .ThenInclude(rb => rb.BodyType)
-                .Include(r => r.RouteParameters)
-                    .ThenInclude(rp => rp.DataType)
-                .Include(r => r.RouteHeaders)
-                    .ThenInclude(rh => rh.DataType)
-                .Include(r => r.RouteType)
-                .Include(r => r.MethodType)
-                .Include(r => r.Clients)
-                .ToList();
+                var result = _context.Routes
+                    .Include(r => r.RouteBody)
+                        .ThenInclude(rb => rb.RouteBodyParameters)
+                            .ThenInclude(rbp => rbp.DataType)
+                    .Include(r => r.RouteBody)
+                        .ThenInclude(rb => rb.ApplicationType)
+                    .Include(r => r.RouteBody)
+                        .ThenInclude(rb => rb.BodyType)
+                    .Include(r => r.RouteParameters)
+                        .ThenInclude(rp => rp.DataType)
+                    .Include(r => r.RouteHeaders)
+                        .ThenInclude(rh => rh.DataType)
+                    .Include(r => r.RouteType)
+                    .Include(r => r.MethodType)
+                    .Include(r => r.Clients)
+                    .ToList();
 #pragma warning restore CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
+                return result;
+            }
+            else
+            {
+                var result = _context.Routes
+                    .Include(r => r.RouteBody)
+                    .Include(r => r.RouteType)
+                    .Include(r => r.MethodType)
+                    .Include(r => r.Clients)
+                    .ToList();
 
-            return result;
+                return result;
+            }
         }
 
         public List<Route> GetAllRoutesForClient(int clientId)
