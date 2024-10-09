@@ -1,6 +1,9 @@
 ﻿@using APIManager.Models
-
 @model List<RequestViewModel>
+
+@section Styles {
+    <link href="@Url.Content("~/css/claims-list.css")" rel="stylesheet" type="text/css" />
+}
 
 <h1>Claims Manager</h1>
 
@@ -10,16 +13,16 @@
             <div class="overflow-hidden card table-nowrap table-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Claims List</h5>
-                    <a href="#!" class="btn btn-light btn-sm">View All</a>
                 </div>
-                <div class="table-responsive">
+                <div class="table-responsive table-claims-list">
                     <table class="table mb-0">
                         <thead class="small text-uppercase bg-body text-muted">
                             <tr>
                                 <th>Client</th>
                                 <th>Route Path</th>
                                 <th>Method Type</th>
-                                <th>Body parameters</th>
+                                <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -35,22 +38,28 @@
                                     </td>
                                     <td>@route.RoutePath</td>
                                     <td>@route.MethodType?.MethodTypeName</td>
-                                    <td class="text-end">
-                                        <table>
-                                            <thead>
-                                                <th>Parameter</th>
-                                            </thead>
-                                            <tbody>
-                                                @if (route.RouteBody != null){
-                                                @foreach(var param in route.RouteBody.RouteBodyParameters)
-                                                {
-                                                    <tr>
-                                                        <td>@param?.BodyKey</td>
-                                                    </tr>
-                                                }
-                                                }
-                                            </tbody>
-                                        </table>
+                                    <td>
+                                            @Html.ActionLink( "",
+                                                      "EditClaim",
+                                                     "Claims",
+                                                     new
+                                                     {
+                                                         route.RouteId
+                                                     },
+                                                     new { @class = "fas fa-edit" }
+                                                     )
+ 
+                                    </td>
+                                    <td>
+                                            @Html.ActionLink("",
+                                                     "DeleteClaim",
+                                                     "Claims",
+                                                     new
+                                                     {
+                                                         route.RouteId
+                                                     },
+                                                     new { @class = "fa-solid fa-trash" }
+                                                     )
                                     </td>
                                 </tr>
                             }
@@ -61,3 +70,7 @@
         </div>
     </div>
 </div>
+
+@section Scripts{
+    <script src="~/js/claimsList.js"></script>
+}

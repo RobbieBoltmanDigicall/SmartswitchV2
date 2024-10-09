@@ -1,4 +1,6 @@
-﻿namespace APIManager.Models
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace APIManager.Models
 {
     public class RequestViewModel
     {
@@ -14,5 +16,7 @@
         public MethodType MethodType { get; set; }
         public ICollection<ClientViewModel> Clients { get; set; }
         public Response Response { get; set; }
+        public List<SelectListItem> RouteTypes { get; set; }
+        public List<SelectListItem> MethodTypes { get; set; }
     }
 }

@@ -22,7 +22,17 @@ namespace APIManager.Services.Claims
 
         public async Task<RequestViewModel> GetClaimRouteById(int claimId)
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.GetAsync($"GetRouteById/{claimId}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError("GetRouteById unsuccessful");
+                return null;
+            }
+            var content = await response.Content.ReadAsStringAsync();
+            var route = JsonConvert.DeserializeObject<RequestViewModel>(content);
+
+            return route;
         }
 
         public async Task<List<RequestViewModel>> ListAllClaimRoutes(bool lazyLoad = true)

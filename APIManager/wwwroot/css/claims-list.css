@@ -1,0 +1,9 @@
+﻿.table-claims-list tr .fas,
+.table-claims-list tr .fa-solid {
+    visibility: hidden;
+}
+
+.table-claims-list tr:hover .fas,
+.table-claims-list tr:hover .fa-solid {
+    visibility: visible;
+}

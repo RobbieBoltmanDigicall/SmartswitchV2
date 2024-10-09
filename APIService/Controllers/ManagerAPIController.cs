@@ -27,5 +27,10 @@ namespace ClaimsService.Controllers
             return _routeService.GetAllRoutes(lazyLoad);
         }
 
+        [HttpGet]
+        [Route("GetRouteById/{routeId}")]
+        public Route GetRouteById(int routeId)
+           => _routeService.GetRouteById(routeId);
+
     }
 }

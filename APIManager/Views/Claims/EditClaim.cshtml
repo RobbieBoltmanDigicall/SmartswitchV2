@@ -1,0 +1,77 @@
+﻿@using APIManager.Models
+@model RequestViewModel
+
+@{
+    ViewData["Title"] = "Edit Request";
+}
+
+<h2>Edit Request</h2>
+
+<form asp-action="EditRequest" method="post">
+    <input asp-for="RouteId" type="hidden"/>
+    <div class="row">
+        <div class="form-group">
+            <label asp-for="RoutePath" class="control-label fw-bold"></label>
+            <input asp-for="RoutePath" class="form-control" />
+            <span asp-validation-for="RoutePath" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-6">
+            <label asp-for="RouteTypes" class="control-label fw-bold"></label>
+            @Html.DropDownListFor(model => model.RouteTypeId, Model.RouteTypes, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group col-6">
+            <label asp-for="Order" class="control-label fw-bold"></label>
+            <input asp-for="Order" class="form-control" />
+            <span asp-validation-for="Order" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!--EXPAND ON ROUTE HEADERS HERE-->
+    <div class="row">
+        <div class="form-group">
+            <label asp-for="RouteHeaders" class="control-label fw-bold"></label>
+            <input asp-for="RouteHeaders" class="form-control" />
+            <span asp-validation-for="RouteHeaders" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!--EXPAND ON ROUTE PARAMS HERE-->
+    <div class="row">
+        <div class="form-group">
+            <label asp-for="RouteParameters" class="control-label fw-bold"></label>
+            <input asp-for="RouteParameters" class="form-control" />
+            <span asp-validation-for="RouteParameters" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!--EXPAND ON ROUTE BODY HERE-->
+    <div class="row">
+        <div class="form-group">
+            <label asp-for="RouteBody" class="control-label fw-bold"></label>
+            <input asp-for="RouteBody" class="form-control" />
+            <span asp-validation-for="RouteBody" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-6">
+            <label asp-for="MethodTypes" class="control-label fw-bold"></label>
+            @Html.DropDownListFor(model => model.MethodTypeId, Model.MethodTypes, new { @class = "form-control" })
+        </div>    
+
+        <div class="form-group col-6">
+            <label asp-for="Clients" class="control-label fw-bold"></label>
+            <input asp-for="Clients" class="form-control" />
+            <span asp-validation-for="Clients" class="text-danger"></span>
+        </div>
+    </div>
+    <!--EXPAND ON ROUTE RESPONSE HERE-->
+    <button type="submit" class="btn btn-primary mt-3">Save</button>
+</form>
+
+@section Scripts {
+}
