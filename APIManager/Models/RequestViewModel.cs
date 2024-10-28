@@ -18,5 +18,8 @@ namespace APIManager.Models
         public Response Response { get; set; }
         public List<SelectListItem> RouteTypes { get; set; }
         public List<SelectListItem> MethodTypes { get; set; }
+        public List<SelectListItem> DataTypes { get; set; }
+        public string? FailOverURL { get; set; }
+        public int? RetryAttempts { get; set; }
     }
 }

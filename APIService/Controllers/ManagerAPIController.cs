@@ -1,7 +1,5 @@
 ﻿using APIService.Controllers;
-using ClaimsService.Models;
 using ClaimsService.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Route = ClaimsService.DAL.Route;
 
