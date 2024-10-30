@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using SmartSwitchV2.DataLayer.HTTPDefinitions;
 
 namespace APIManager.Models
 {

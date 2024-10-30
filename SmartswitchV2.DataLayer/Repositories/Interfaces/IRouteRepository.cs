@@ -1,6 +1,6 @@
-﻿using Route = ClaimsService.DAL.Route;
+﻿using Route = SmartSwitchV2.DataLayer.HTTPDefinitions.Route;
 
-namespace ClaimsService.Models.Repositories.Interfaces
+namespace SmartSwitchV2.DataLayer.Repositories.Interfaces
 {
     public interface IRouteRepository
     {

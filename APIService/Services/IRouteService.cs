@@ -1,4 +1,4 @@
-﻿using Route = ClaimsService.DAL.Route;
+﻿using Route = SmartSwitchV2.DataLayer.HTTPDefinitions.Route;
 
 namespace ClaimsService.Services
 {

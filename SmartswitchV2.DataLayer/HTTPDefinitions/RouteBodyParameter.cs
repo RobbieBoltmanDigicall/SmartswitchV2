@@ -1,9 +1,9 @@
-﻿namespace APIManager.Models
+﻿namespace SmartSwitchV2.DataLayer.HTTPDefinitions
 {
     public class RouteBodyParameter
     {
         public int RouteBodyParameterId { get; set; }
-        public int RouteBodyId { get; set; }
+        public int RouteBodyId {  get; set; }
         public RouteBody RouteBody { get; set; }
         public string BodyKey { get; set; }
         public string BodyValue { get; set; }

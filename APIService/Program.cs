@@ -1,9 +1,9 @@
-using ClaimsService.DAL;
-using ClaimsService.Models.Repositories;
-using ClaimsService.Models.Repositories.Interfaces;
+using SmartSwitchV2.DataLayer.HTTPDefinitions;
 using ClaimsService.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using ClaimsService.Models.Repositories;
+using SmartSwitchV2.DataLayer.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,9 +21,10 @@ builder.Services.AddDbContext<SmartSwitchDbContext>(options =>
         sqlServerOptions => sqlServerOptions.EnableRetryOnFailure());
 });
 
-builder.Services.AddScoped<IRouteRepository,RouteRepository>();
+builder.Services.AddScoped<IRouteRepository, RouteRepository>();
 builder.Services.AddScoped<IRouteService, RouteService>();
 builder.Services.AddScoped<IResponseRepository, ResponseRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

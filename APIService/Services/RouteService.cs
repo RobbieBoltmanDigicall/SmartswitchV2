@@ -1,8 +1,8 @@
 ﻿using ClaimsService.Models;
-using ClaimsService.Models.Repositories.Interfaces;
+using SmartSwitchV2.DataLayer.Repositories.Interfaces;
 using Newtonsoft.Json;
 using System.Text;
-using Route = ClaimsService.DAL.Route;
+using Route = SmartSwitchV2.DataLayer.HTTPDefinitions.Route;
 
 namespace ClaimsService.Services
 {

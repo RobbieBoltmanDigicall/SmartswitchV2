@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 
-namespace ClaimsService.DAL
+namespace SmartSwitchV2.DataLayer.HTTPDefinitions
 {
     public class SmartSwitchDbContext(DbContextOptions<SmartSwitchDbContext> options) : DbContext(options)
     {

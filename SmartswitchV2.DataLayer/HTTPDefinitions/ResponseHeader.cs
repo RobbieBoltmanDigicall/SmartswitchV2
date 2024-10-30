@@ -1,4 +1,4 @@
-﻿namespace ClaimsService.DAL
+﻿namespace SmartSwitchV2.DataLayer.HTTPDefinitions
 {
     public class ResponseHeader
     {

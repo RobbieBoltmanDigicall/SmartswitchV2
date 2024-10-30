@@ -1,4 +1,4 @@
-﻿using ClaimsService.Models.Repositories.Interfaces;
+﻿using SmartSwitchV2.DataLayer.Repositories.Interfaces;
 
 namespace ClaimsService.Services
 {

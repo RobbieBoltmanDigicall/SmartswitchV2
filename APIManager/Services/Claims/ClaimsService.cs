@@ -1,6 +1,7 @@
 ﻿using APIManager.Controllers;
 using APIManager.Models;
 using Newtonsoft.Json;
+using SmartSwitchV2.DataLayer.HTTPDefinitions;
 using System.Net.Http;
 using RequestViewModel = APIManager.Models.RequestViewModel;
 
@@ -46,9 +47,9 @@ namespace APIManager.Services.Claims
             }
 
             var content = await response.Content.ReadAsStringAsync();
-            var listRoutes = JsonConvert.DeserializeObject<List<RequestViewModel>>(content);
+            var listRoutes = JsonConvert.DeserializeObject<List<SmartSwitchV2.DataLayer.HTTPDefinitions.Route>>(content);
 
-            return listRoutes;
+            return new List<RequestViewModel>();
         }
 
         public async Task<List<RequestViewModel>> ListAllClaimRoutesByClientId(int clientId)
