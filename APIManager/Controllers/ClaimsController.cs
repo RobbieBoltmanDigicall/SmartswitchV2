@@ -7,10 +7,10 @@ namespace APIManager.Controllers
 {
     public class ClaimsController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<ClaimsController> _logger;
         private readonly IClaimsService _claimsService;
 
-        public ClaimsController(ILogger<HomeController> logger, 
+        public ClaimsController(ILogger<ClaimsController> logger, 
             IClaimsService claimsService
             )
         {

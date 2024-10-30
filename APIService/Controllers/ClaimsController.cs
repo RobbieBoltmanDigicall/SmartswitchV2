@@ -1,11 +1,7 @@
 ﻿using ClaimsService.Models;
 using ClaimsService.Services;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Reflection.PortableExecutable;
-using System.Text;
+using Route = SmartSwitchV2.DataLayer.HTTPDefinitions.Route;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,11 +20,21 @@ namespace APIService.Controllers
             _routeService = routeService;
         }
 
-
         [HttpPost("CreateClaim")]
         public async Task<ResponseModel> CreateClaim(RequestModel requestDetail)
         {
             return new ResponseModel { };
         }
+
+        [HttpGet("GetAllRoutes")]
+        public List<Route> GetAllRoutes(bool lazyLoad)
+        {
+            return _routeService.GetAllRoutes(lazyLoad);
+        }
+
+        [HttpGet]
+        [Route("GetRouteById/{routeId}")]
+        public Route GetRouteById(int routeId)
+           => _routeService.GetRouteById(routeId);
     }
 }

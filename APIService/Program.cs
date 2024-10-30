@@ -22,8 +22,8 @@ builder.Services.AddDbContext<SmartSwitchDbContext>(options =>
 });
 
 builder.Services.AddScoped<IRouteRepository, RouteRepository>();
-builder.Services.AddScoped<IRouteService, RouteService>();
 builder.Services.AddScoped<IResponseRepository, ResponseRepository>();
+builder.Services.AddScoped<IRouteService, RouteService>();
 
 var app = builder.Build();
 
