@@ -12,7 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SmartswitchV2.DataLayer\SmartSwitchV2.DataLayer.csproj" />
+    <ProjectReference Include="..\SmartSwitchV2.Core.Shared\SmartSwitchV2.Core.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Helpers\" />
   </ItemGroup>
 
 </Project>

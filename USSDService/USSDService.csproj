@@ -10,4 +10,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SmartSwitchV2.Core.Shared\SmartSwitchV2.Core.Shared.csproj" />
+    <ProjectReference Include="..\SmartswitchV2.DataLayer\SmartSwitchV2.DataLayer.csproj" />
+  </ItemGroup>
+
 </Project>
