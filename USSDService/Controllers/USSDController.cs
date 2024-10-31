@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SmartSwitchV2.Core.Shared.Entities;
+using Route = SmartSwitchV2.DataLayer.HTTPDefinitions.Route;
 
 namespace USSDService.Controllers
 {
@@ -13,10 +15,11 @@ namespace USSDService.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name = "ProcessUSSD")]
-        public IActionResult ProcessUSSD()
+        [HttpPost(Name = "ProcessRequest")]
+        public IActionResult ProcessUSSDRequest(Request request)
         {
             return Ok();
         }
+
     }
 }

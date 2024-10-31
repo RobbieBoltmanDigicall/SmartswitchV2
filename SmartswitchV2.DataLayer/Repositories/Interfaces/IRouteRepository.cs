@@ -4,7 +4,7 @@ namespace SmartSwitchV2.DataLayer.Repositories.Interfaces
 {
     public interface IRouteRepository
     {
-        List<Route> GetAllRoutes(bool lazyLoad = true);
+        List<Route> GetAllRoutes(int systemId, bool lazyLoad = true);
         List<Route> GetAllRoutesForClient(int clientId);
         Route GetRouteModelByRouteId(int routeId);
         bool UpdateRoute(Route route);        

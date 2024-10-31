@@ -17,6 +17,12 @@ namespace APIManager.Controllers
             _ussdService = ussdService;
         }
 
+        public async Task<IActionResult> USSDList()
+        {
+            var viewModel = await _ussdService.ListAllUSSDRoutes();
+            return View("~/Views/USSD/USSDList.cshtml", viewModel);
+        }
+
         public IActionResult Index()
         {
             return View();

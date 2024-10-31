@@ -3,6 +3,7 @@ using SmartSwitchV2.DataLayer.Repositories.Interfaces;
 using Newtonsoft.Json;
 using System.Text;
 using Route = SmartSwitchV2.DataLayer.HTTPDefinitions.Route;
+using SmartSwitchV2.Core.Shared.Entities;
 
 namespace ClaimsService.Services
 {
@@ -18,7 +19,7 @@ namespace ClaimsService.Services
         }
 
         public List<Route> GetAllRoutes(bool lazyLoad) =>        
-            _routeRepository.GetAllRoutes(lazyLoad);
+            _routeRepository.GetAllRoutes(1, lazyLoad);
         
 
         public Route GetRouteById(int routeId) =>
@@ -28,7 +29,7 @@ namespace ClaimsService.Services
         public List<Route> GetRoutesForClient(int clientId) =>
             _routeRepository.GetAllRoutesForClient(clientId);
 
-        public async Task<bool> CallRoute(RequestModel request)
+        public async Task<bool> CallRoute(Request request)
         {
             //var _httpClient = new HttpClient();
 

@@ -1,6 +1,7 @@
 ﻿using ClaimsService.Models;
 using ClaimsService.Services;
 using Microsoft.AspNetCore.Mvc;
+using SmartSwitchV2.Core.Shared.Entities;
 using Route = SmartSwitchV2.DataLayer.HTTPDefinitions.Route;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -21,7 +22,7 @@ namespace APIService.Controllers
         }
 
         [HttpPost("CreateClaim")]
-        public async Task<ResponseModel> CreateClaim(RequestModel requestDetail)
+        public async Task<ResponseModel> CreateClaim(Request requestDetail)
         {
             return new ResponseModel { };
         }

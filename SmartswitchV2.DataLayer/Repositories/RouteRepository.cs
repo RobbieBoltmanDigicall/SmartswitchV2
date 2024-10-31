@@ -24,12 +24,12 @@ namespace ClaimsService.Models.Repositories
             throw new NotImplementedException();
         }
 
-        public List<Route> GetAllRoutes(bool lazyLoad = true)
+        public List<Route> GetAllRoutes(int systemId, bool lazyLoad = true)
         {
             if (!lazyLoad)
             {
 #pragma warning disable CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
-                var result = _context.Routes
+                var result = _context.Routes.Where(r => r.SystemId == systemId)
                     .Include(r => r.RouteBody)
                         .ThenInclude(rb => rb.RouteBodyParameters)
                             .ThenInclude(rbp => rbp.DataType)
@@ -50,7 +50,7 @@ namespace ClaimsService.Models.Repositories
             }
             else
             {
-                var result = _context.Routes
+                var result = _context.Routes.Where(r => r.SystemId == systemId)
                     .Include(r => r.RouteBody)
                     .Include(r => r.RouteType)
                     .Include(r => r.MethodType)

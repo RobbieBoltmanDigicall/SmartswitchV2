@@ -1,8 +1,11 @@
-﻿namespace APIManager.Services.USSDs
+﻿using APIManager.Models;
+using Route = SmartSwitchV2.Core.Shared.Entities.Route;
+
+namespace APIManager.Services.USSDs
 {
     public interface IUSSDService
     {
-        List<Route> GetAllUSSDs(bool lazyLoad = true);
-        Route GetUSSDById(int ussdId);
+        Task<List<RequestViewModel>> ListAllUSSDRoutes(bool lazyLoad = true);
+        Task<Route> GetUSSDRouteById(int ussdId);
     }
 }

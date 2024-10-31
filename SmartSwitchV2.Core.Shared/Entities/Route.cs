@@ -21,5 +21,6 @@ namespace SmartSwitchV2.Core.Shared.Entities
         public Response Response { get; set; }
         public string? FailOverURL { get; set; }
         public int? RetryAttempts { get; set; }
+
     }
 }

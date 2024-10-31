@@ -1,8 +1,10 @@
-﻿namespace USSDService.Services
+﻿using Route = SmartSwitchV2.DataLayer.HTTPDefinitions.Route;
+
+namespace USSDService.Services
 {
     public interface IUSSDService
     {
-        List<Route> GetAllUSSDs(bool lazyLoad = true);
-        Route GetUSSDById(int ussdId);
+        List<Route> GetAllUSSDRoutes(bool lazyLoad = true);
+        Route GetUSSDRouteById(int routeId);
     }
 }
