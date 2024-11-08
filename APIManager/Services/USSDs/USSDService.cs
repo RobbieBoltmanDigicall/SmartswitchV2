@@ -2,6 +2,7 @@
 using APIManager.Services.Claims;
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Security.Claims;
 using Route = SmartSwitchV2.Core.Shared.Entities.Route;
 
 namespace APIManager.Services.USSDs
@@ -22,7 +23,7 @@ namespace APIManager.Services.USSDs
 
         public async Task<List<RequestViewModel>> ListAllUSSDRoutes(bool lazyLoad = true)
         {
-            var response = await _httpClient.GetAsync($"GetAllUSSDRoutes?lazyLoad={lazyLoad}");
+            var response = await _httpClient.GetAsync($"GetAllRoutes?lazyLoad={lazyLoad}");
 
             if (!response.IsSuccessStatusCode)
             {
@@ -52,9 +53,29 @@ namespace APIManager.Services.USSDs
             return result;
         }
 
-        public async Task<Route> GetUSSDRouteById(int ussdId)
+        public async Task<RequestViewModel> GetUSSDRouteById(int ussdRouteId)
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.GetAsync($"GetRouteById/{ussdRouteId}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError("GetRouteById unsuccessful");
+                return null;
+            }
+            var content = await response.Content.ReadAsStringAsync();
+            var route = JsonConvert.DeserializeObject<Route>(content);
+
+            var result = new RequestViewModel()
+            {
+                Route = route,
+                Clients = route.Clients.Select(c => new ClientViewModel()
+                {
+                    ClientId = c.ClientId,
+                    ClientName = c.ClientName
+                }).ToList()
+            };
+
+            return result;
         }
     }
 }

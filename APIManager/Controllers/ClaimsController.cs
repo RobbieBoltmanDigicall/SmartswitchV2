@@ -74,7 +74,6 @@ namespace APIManager.Controllers
             }
             catch (Exception ex)
             {
-                var s = ex;
                 return null;
             }
         }

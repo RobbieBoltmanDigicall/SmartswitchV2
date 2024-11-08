@@ -1,0 +1,158 @@
+﻿@using APIManager.Models
+@model RequestViewModel
+
+@{
+    ViewData["Title"] = "Edit Request";
+}
+
+<h2>Edit Request</h2>
+
+<form asp-action="EditRequest" method="post">
+    <input asp-for="Route.RouteId" type="hidden"/>
+    <div class="row mt-3">
+        <div class="form-group">
+            <label asp-for="Route.RoutePath" class="control-label fw-bold"></label>
+            <input asp-for="Route.RoutePath" class="form-control" />
+            <span asp-validation-for="Route.RoutePath" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="form-group col-6">
+            <label asp-for="RouteTypes" class="control-label fw-bold"></label>
+            @Html.DropDownListFor(model => model.Route.RouteTypeId, Model.RouteTypes, new { @class = "form-control" })
+        </div>
+
+        <div class="form-group col-6">
+            <label asp-for="Route.Order" class="control-label fw-bold"></label>
+            <input asp-for="Route.Order" class="form-control" />
+            <span asp-validation-for="Route.Order" class="text-danger"></span>
+        </div>
+    </div>
+
+    <!--EXPAND ON ROUTE HEADERS HERE-->
+    <div class="row mt-3">
+        <label class="control-label fw-bold">Route Headers</label>
+        <div class="table-responsive table-route-headers">
+            <table class="table mb-0">
+                <thead class="small text-uppercase bg-body text-muted">
+                    <tr>
+                        <th>Key</th>
+                        <th>Value (optional)</th>
+                        <th>Data Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Route.RouteHeaders != null)
+                    {
+                        @foreach (var header in Model.Route.RouteHeaders)
+                        {
+                            <tr class="align-middle">
+                                <td class="d-none">@header.RouteHeaderId</td>
+                                <td>
+                                    <input type="text" name="HeaderKey" value="@header.HeaderKey" class="form-control" />
+                                </td>
+                                <td>
+                                    <input type="text" name="HeaderValue" value="@header.HeaderValue" class="form-control" />
+                                </td>
+                                <td>
+                                    <input type="text" name="DataType" value="@header.DataType?.DataTypeName" class="form-control" />
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!--EXPAND ON ROUTE PARAMS HERE-->
+    <div class="row mt-3">
+        <label class="control-label fw-bold">Route Parameters</label>
+        <div class="table-responsive table-route-params">
+            <table class="table mb-0">
+                <thead class="small text-uppercase bg-body text-muted">
+                    <tr>
+                        <th>Key</th>
+                        <th>Value (optional)</th>
+                        <th>Data Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Route.RouteParameters != null)
+                    {
+                        @foreach (var param in Model.Route.RouteParameters)
+                        {
+                            <tr class="align-middle">
+                                <td>@param.ParameterKey</td>
+                                <td>@param.ParameterValue</td>
+                                <td>@param.DataType?.DataTypeName</td>                            
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!--EXPAND ON ROUTE BODY HERE-->
+    <div class="row mt-3">
+        <label class="control-label fw-bold">Body Parameters</label>
+        <div class="table-responsive table-route-body-params">
+            <table class="table mb-0">
+                <thead class="small text-uppercase bg-body text-muted">
+                    <tr>
+                        <th>Key</th>
+                        <th>Value (optional)</th>
+                        <th>Data Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Route.RouteBody != null)
+                    {
+                        @foreach (var param in Model.Route.RouteBody.RouteBodyParameters)
+                        {
+                            <tr class="align-middle">
+                                <td class="d-none">@param.RouteBodyParameterId</td>
+                                <td>
+                                    <input type="text" name="HeaderKey" value="@param.BodyKey" class="form-control" />
+                                </td>
+                                <td>
+                                    <input type="text" name="HeaderValue" value="@param.BodyValue" class="form-control" />
+                                </td>
+                                <td>
+                                    <select name="DataType" class="form-control">
+                                        @foreach (var dataType in Model.DataTypes)
+                                        {
+                                            <option value="@dataType.Value" selected="@(int.Parse(dataType.Value) == param.DataTypeId ? "selected" : null)">
+                                                @dataType.Text
+                                            </option>
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="form-group col-6">
+            <label asp-for="MethodTypes" class="control-label fw-bold"></label>
+            @Html.DropDownListFor(model => model.Route.MethodTypeId, Model.MethodTypes, new { @class = "form-control" })
+        </div>    
+
+        <div class="form-group col-6">
+            <label asp-for="Clients" class="control-label fw-bold"></label>
+            <input asp-for="Clients" class="form-control" />
+            <span asp-validation-for="Clients" class="text-danger"></span>
+        </div>
+    </div>
+    <!--EXPAND ON ROUTE RESPONSE HERE-->
+    <button type="submit" class="btn btn-primary mt-3">Save</button>
+</form>
+
+@section Scripts {
+}

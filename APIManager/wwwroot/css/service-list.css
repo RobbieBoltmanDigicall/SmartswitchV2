@@ -1,0 +1,9 @@
+﻿.table-service-list tr .fas,
+.table-service-list tr .fa-solid {
+    visibility: hidden;
+}
+
+.table-service-list tr:hover .fas,
+.table-service-list tr:hover .fa-solid {
+    visibility: visible;
+}

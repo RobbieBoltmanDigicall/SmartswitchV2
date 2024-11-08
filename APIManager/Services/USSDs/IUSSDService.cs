@@ -6,6 +6,6 @@ namespace APIManager.Services.USSDs
     public interface IUSSDService
     {
         Task<List<RequestViewModel>> ListAllUSSDRoutes(bool lazyLoad = true);
-        Task<Route> GetUSSDRouteById(int ussdId);
+        Task<RequestViewModel> GetUSSDRouteById(int ussdRouteId);
     }
 }
