@@ -25,15 +25,24 @@ namespace USSDService.Controllers
             return _ussdService.GetAllUSSDRoutes(lazyLoad);
         }
 
-        [HttpGet]
-        [Route("GetRouteById/{routeId}")]
+        [HttpGet("GetRouteById/{routeId}")]
         public Route GetRouteById(int routeId)
             => _ussdService.GetUSSDRouteById(routeId);
 
-        [HttpPost(Name = "ProcessRequest")]
+        [HttpPost("ProcessRequest")]
         public IActionResult ProcessUSSDRequest(Request request)
         {
             return Ok();
+        }
+
+        [HttpPost("Edit")]
+        public IActionResult EditUSSD(SmartSwitchV2.Core.Shared.Entities.Route route)
+        {
+            var result = _ussdService.UpdateUSSDRoute(route);
+
+            if (result)
+                return Ok();
+            return BadRequest();
         }
 
     }

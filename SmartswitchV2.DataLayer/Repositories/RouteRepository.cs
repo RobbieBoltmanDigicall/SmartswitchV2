@@ -128,7 +128,20 @@ namespace ClaimsService.Models.Repositories
 
         public bool UpdateRoute(Route route)
         {
-            throw new NotImplementedException();
+            try
+            {
+                // Save changes
+                _context.Routes.Update(route);
+                _context.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                Console.WriteLine(ex.Message);
+                return false;
+            }
         }
     }
 }

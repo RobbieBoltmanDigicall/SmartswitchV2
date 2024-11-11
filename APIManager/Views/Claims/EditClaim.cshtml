@@ -8,7 +8,10 @@
 <h2>Edit Request</h2>
 
 <form asp-action="EditRequest" method="post">
-    <input asp-for="Route.RouteId" type="hidden"/>
+    <input asp-for="Route.RouteBody.RouteBodyId" type="hidden" />
+    <input id="hdn-method-type-name" asp-for="Route.MethodType.MethodTypeName" type="hidden" />
+    <input id="hdn-route-type-name" asp-for="Route.RouteType.RouteTypeName" type="hidden" />
+    <input asp-for="Route.RouteId" type="hidden" />
     <div class="row mt-3">
         <div class="form-group">
             <label asp-for="Route.RoutePath" class="control-label fw-bold"></label>
@@ -20,7 +23,16 @@
     <div class="row mt-3">
         <div class="form-group col-6">
             <label asp-for="RouteTypes" class="control-label fw-bold"></label>
-            @Html.DropDownListFor(model => model.Route.RouteTypeId, Model.RouteTypes, new { @class = "form-control" })
+            @Html.DropDownListFor(
+                     model => model.Route.RouteType.RouteTypeId,
+                     new SelectList(
+                     Model.RouteTypes.Items,
+                     "Value",
+                     "Text",
+                     Model.Route.RouteType
+                     ),
+                     new { @class = "form-control", @id = "select-list-route-types" }
+                     )
         </div>
 
         <div class="form-group col-6">
@@ -45,18 +57,19 @@
                 <tbody>
                     @if (Model.Route.RouteHeaders != null)
                     {
-                        @foreach (var header in Model.Route.RouteHeaders)
+                        @for (int i = 0; i < Model.Route.RouteHeaders.Count; i++)
                         {
                             <tr class="align-middle">
-                                <td class="d-none">@header.RouteHeaderId</td>
+                                @Html.HiddenFor(r => r.Route.RouteHeaders[i].RouteHeaderId)
+                                @Html.HiddenFor(r => r.Route.RouteHeaders[i].RouteId)
+                                <td>@Html.TextBoxFor(r => r.Route.RouteHeaders[i].HeaderKey)</td>
+                                <td>@Html.TextBoxFor(r => r.Route.RouteHeaders[i].HeaderValue)</td>
                                 <td>
-                                    <input type="text" name="HeaderKey" value="@header.HeaderKey" class="form-control" />
-                                </td>
-                                <td>
-                                    <input type="text" name="HeaderValue" value="@header.HeaderValue" class="form-control" />
-                                </td>
-                                <td>
-                                    <input type="text" name="DataType" value="@header.DataType?.DataTypeName" class="form-control" />
+                                    @Html.DropDownListFor(
+                                             model => model.Route.RouteHeaders[i].DataTypeId,
+                                             new SelectList(Model.DataTypes, "Value", "Text", Model.Route.RouteHeaders[i].DataTypeId),
+                                             new { @class = "form-control" }
+                                             )
                                 </td>
                             </tr>
                         }
@@ -86,7 +99,7 @@
                             <tr class="align-middle">
                                 <td>@param.ParameterKey</td>
                                 <td>@param.ParameterValue</td>
-                                <td>@param.DataType?.DataTypeName</td>                            
+                                <td>@param.DataType?.DataTypeName</td>
                             </tr>
                         }
                     }
@@ -110,25 +123,19 @@
                 <tbody>
                     @if (Model.Route.RouteBody != null)
                     {
-                        @foreach (var param in Model.Route.RouteBody.RouteBodyParameters)
+                        @for (int i = 0; i < Model.Route.RouteBody.RouteBodyParameters.Count; i++)
                         {
                             <tr class="align-middle">
-                                <td class="d-none">@param.RouteBodyParameterId</td>
+                                @Html.HiddenFor(r => r.Route.RouteBody.RouteBodyParameters[i].RouteBodyId)
+                                @Html.HiddenFor(r => r.Route.RouteBody.RouteBodyParameters[i].RouteBodyParameterId)
+                                <td>@Html.TextBoxFor(r => r.Route.RouteBody.RouteBodyParameters[i].BodyKey)</td>
+                                <td>@Html.TextBoxFor(r => r.Route.RouteBody.RouteBodyParameters[i].BodyValue)</td>
                                 <td>
-                                    <input type="text" name="HeaderKey" value="@param.BodyKey" class="form-control" />
-                                </td>
-                                <td>
-                                    <input type="text" name="HeaderValue" value="@param.BodyValue" class="form-control" />
-                                </td>
-                                <td>
-                                    <select name="DataType" class="form-control">
-                                        @foreach (var dataType in Model.DataTypes)
-                                        {
-                                            <option value="@dataType.Value" selected="@(int.Parse(dataType.Value) == param.DataTypeId ? "selected" : null)">
-                                                @dataType.Text
-                                            </option>
-                                        }
-                                    </select>
+                                    @Html.DropDownListFor(
+                                             model => model.Route.RouteBody.RouteBodyParameters[i].DataTypeId,
+                                             new SelectList(Model.DataTypes.Items, "Value", "Text", Model.Route.RouteBody.RouteBodyParameters[i].DataTypeId),
+                                             new { @class = "form-control" }
+                                             )
                                 </td>
                             </tr>
                         }
@@ -141,8 +148,17 @@
     <div class="row mt-3">
         <div class="form-group col-6">
             <label asp-for="MethodTypes" class="control-label fw-bold"></label>
-            @Html.DropDownListFor(model => model.Route.MethodTypeId, Model.MethodTypes, new { @class = "form-control" })
-        </div>    
+            @Html.DropDownListFor(
+                     model => model.Route.MethodType.MethodTypeId,
+                     new SelectList(
+                     Model.MethodTypes.Items,
+                     "Value",
+                     "Text",
+                     Model.Route.MethodType
+                     ),
+                     new { @class = "form-control", @id = "select-list-method-types" }
+                     )
+        </div>
 
         <div class="form-group col-6">
             <label asp-for="Clients" class="control-label fw-bold"></label>
@@ -155,4 +171,5 @@
 </form>
 
 @section Scripts {
+    <script src="~/js/ussdEdit.js"></script>
 }

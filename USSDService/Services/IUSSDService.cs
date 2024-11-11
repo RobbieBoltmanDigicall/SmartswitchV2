@@ -6,5 +6,6 @@ namespace USSDService.Services
     {
         List<Route> GetAllUSSDRoutes(bool lazyLoad = true);
         Route GetUSSDRouteById(int routeId);
+        bool UpdateUSSDRoute(SmartSwitchV2.Core.Shared.Entities.Route route);
     }
 }

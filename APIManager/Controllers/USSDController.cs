@@ -2,7 +2,11 @@
 using APIManager.Services.Claims;
 using APIManager.Services.USSDs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
+using SmartSwitchV2.Core.Shared.Entities;
+using Route = SmartSwitchV2.Core.Shared.Entities.Route;
 
 namespace APIManager.Controllers
 {
@@ -25,10 +29,14 @@ namespace APIManager.Controllers
             try
             {
                 RequestViewModel viewModel = await _ussdService.GetUSSDRouteById(routeId);
-
+                //var serializedRoute = JsonConvert.SerializeObject(viewModel.Route);
                 //TODO: Dynamically retrieve this from DB
-                viewModel.RouteTypes =
-                viewModel.MethodTypes = new List<SelectListItem>() {
+                var routeTypes = new List<SelectListItem>() {
+                    new SelectListItem() { Text = "REST", Value = "1" },
+                    new SelectListItem() { Text = "SOAP", Value = "2" }
+                };
+
+                var methodTypes = new List<SelectListItem>() {
                     new SelectListItem() { Text = "GET", Value = "1" },
                     new SelectListItem() { Text = "POST", Value = "2" },
                     new SelectListItem() { Text = "DELETE", Value = "3" },
@@ -37,7 +45,8 @@ namespace APIManager.Controllers
                     new SelectListItem() { Text = "HEAD", Value = "6" },
                     new SelectListItem() { Text = "OPTIONS", Value = "7" }
                 };
-                viewModel.DataTypes = new List<SelectListItem>() {
+
+                var dataTypes = new List<SelectListItem>() {
                     new SelectListItem() { Text = "Boolean", Value = "1" },
                     new SelectListItem() { Text = "Byte", Value = "2" },
                     new SelectListItem() { Text = "SByte", Value = "3" },
@@ -59,12 +68,25 @@ namespace APIManager.Controllers
                     new SelectListItem() { Text = "Uri", Value = "19" }
                 };
 
+                viewModel.RouteTypes = new SelectList(routeTypes);
+                viewModel.MethodTypes = new SelectList(methodTypes);
+                viewModel.DataTypes = new SelectList(dataTypes);
+
                 return View("~/Views/USSD/EditUSSD.cshtml", viewModel);
             }
             catch (Exception ex)
             {;
                 return null;
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUSSD(RequestViewModel requestViewModel)
+        {
+            var result = await _ussdService.UpdateRequest(requestViewModel.Route);
+            if (result)
+                return await USSDList();
+            return BadRequest();
         }
 
         public async Task<IActionResult> USSDList()

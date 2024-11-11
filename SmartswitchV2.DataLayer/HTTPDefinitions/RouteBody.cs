@@ -9,6 +9,6 @@
         public BodyType BodyType { get; set; }
         public int? ApplicationTypeId { get; set; }
         public ApplicationType? ApplicationType { get; set; }
-        public ICollection<RouteBodyParameter> RouteBodyParameters { get; set; }
+        public List<RouteBodyParameter> RouteBodyParameters { get; set; }
     }
 }

@@ -9,6 +9,6 @@ namespace SmartSwitchV2.Core.Shared.Entities
     public class Response
     {
         public int ResponseId { get; set; }
-        public Route Route { get; set; }
+        //public Route Route { get; set; }
     }
 }

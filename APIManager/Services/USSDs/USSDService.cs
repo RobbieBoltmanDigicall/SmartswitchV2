@@ -3,6 +3,7 @@ using APIManager.Services.Claims;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Security.Claims;
+using System.Text;
 using Route = SmartSwitchV2.Core.Shared.Entities.Route;
 
 namespace APIManager.Services.USSDs
@@ -76,6 +77,39 @@ namespace APIManager.Services.USSDs
             };
 
             return result;
+        }
+
+        public async Task<bool> UpdateRequest(Route route)
+        {
+
+            try
+            {
+                //TODO: Set these dynamically instead of hardcoding
+                route.Response = new SmartSwitchV2.Core.Shared.Entities.Response();
+                if (route.RouteBody != null)
+                    route.RouteBody.ApplicationType = new SmartSwitchV2.Core.Shared.Entities.ApplicationType()
+                    {
+                        ApplicationTypeId = 3,
+                        ApplicationTypeName = "JSON"
+                    };
+
+                route.RouteBody?.RouteBodyParameters.ForEach(p => p.DataType = new SmartSwitchV2.Core.Shared.Entities.DataType() { DataTypeId = p.DataTypeId, DataTypeName = "" });
+                var serializedRoute = JsonConvert.SerializeObject(route);
+                var jsonContent = new StringContent(serializedRoute, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync("Edit", jsonContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                Console.WriteLine(ex.Message);
+                return false;
+            }
         }
     }
 }

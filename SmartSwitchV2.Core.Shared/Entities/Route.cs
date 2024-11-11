@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace SmartSwitchV2.Core.Shared.Entities
-{    public class Route
+{    
+    public class Route
     {
         public int RouteId { get; set; }
         public int RouteTypeId { get; set; }
@@ -17,10 +18,9 @@ namespace SmartSwitchV2.Core.Shared.Entities
         public RouteBody? RouteBody { get; set; }
         public int MethodTypeId { get; set; }
         public MethodType MethodType { get; set; }
-        public List<Client> Clients { get; set; }
+        public List<Client>? Clients { get; set; }
         public Response Response { get; set; }
-        public string? FailOverURL { get; set; }
-        public int? RetryAttempts { get; set; }
-
+        //public string? FailOverURL { get; set; }
+        //public int? RetryAttempts { get; set; }
     }
 }

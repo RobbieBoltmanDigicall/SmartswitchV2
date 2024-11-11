@@ -37,9 +37,13 @@ namespace APIManager.Controllers
             {
                 RequestViewModel viewModel = await _claimsService.GetClaimRouteById(routeId);
 
-                //TODO: Dynamically retrieve this from DB
-                viewModel.RouteTypes =
-                viewModel.MethodTypes = new List<SelectListItem>() {
+                //TODO: Dynamically retrieve from DB
+                var routeTypes = new List<SelectListItem>() {
+                    new SelectListItem() { Text = "REST", Value = "1" },
+                    new SelectListItem() { Text = "SOAP", Value = "2" }
+                };
+
+                var methodTypes = new List<SelectListItem>() {
                     new SelectListItem() { Text = "GET", Value = "1" },
                     new SelectListItem() { Text = "POST", Value = "2" },
                     new SelectListItem() { Text = "DELETE", Value = "3" },
@@ -48,7 +52,8 @@ namespace APIManager.Controllers
                     new SelectListItem() { Text = "HEAD", Value = "6" },
                     new SelectListItem() { Text = "OPTIONS", Value = "7" }
                 };
-                viewModel.DataTypes = new List<SelectListItem>() {
+
+                var dataTypes = new List<SelectListItem>() {
                     new SelectListItem() { Text = "Boolean", Value = "1" },
                     new SelectListItem() { Text = "Byte", Value = "2" },
                     new SelectListItem() { Text = "SByte", Value = "3" },
@@ -69,6 +74,10 @@ namespace APIManager.Controllers
                     new SelectListItem() { Text = "TimeSpan", Value = "18" },
                     new SelectListItem() { Text = "Uri", Value = "19" }
                 };
+
+                viewModel.RouteTypes = new SelectList(routeTypes);
+                viewModel.MethodTypes = new SelectList(methodTypes);
+                viewModel.DataTypes = new SelectList(dataTypes);
 
                 return View("~/Views/Claims/EditClaim.cshtml", viewModel);
             }
