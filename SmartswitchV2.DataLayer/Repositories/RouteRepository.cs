@@ -88,6 +88,43 @@ namespace ClaimsService.Models.Repositories
             return result;
         }
 
+        public Route GetRouteModelByRouteName(string name)
+        {
+            try
+            {
+                //TODO: Investigate impact of supressing warning. 
+                //Seems to be fine due to EF building a query and no exception thrown when nullable types are returned from SQL.
+#pragma warning disable CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
+                var result = _context.Routes
+                    .Include(r => r.RouteBody)
+                        .ThenInclude(rb => rb.RouteBodyParameters)
+                            .ThenInclude(rbp => rbp.DataType)
+                    .Include(r => r.RouteBody)
+                        .ThenInclude(rb => rb.ApplicationType)
+                    .Include(r => r.RouteBody)
+                        .ThenInclude(rb => rb.BodyType)
+                    .Include(rp => rp.RouteParameters)
+                        .ThenInclude(rp => rp.DataType)
+                    .Include(r => r.RouteHeaders)
+                        .ThenInclude(rh => rh.DataType)
+                    .Include(r => r.RouteType)
+                    .Include(r => r.MethodType)
+                    .Include(r => r.Clients)
+                    .FirstOrDefault(r => r.RouteName == name);
+#pragma warning restore CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
+
+                if (result == null)
+                    //TODO: Log null route
+                    throw new Exception("No route found");
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+        }
+
         public Route GetRouteModelByRouteId(int routeId)
         {
             try

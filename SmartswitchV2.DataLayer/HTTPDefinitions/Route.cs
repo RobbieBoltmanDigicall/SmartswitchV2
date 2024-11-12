@@ -3,6 +3,7 @@
     public class Route
     {
         public int RouteId { get; set; }
+        public string RouteName { get; set; }
         public int SystemId { get; set; }
         public int RouteTypeId { get; set; }
         public RouteType RouteType { get; set; }

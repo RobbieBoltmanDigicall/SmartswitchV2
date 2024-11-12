@@ -32,6 +32,7 @@ namespace USSDService.Controllers
         [HttpPost("ProcessRequest")]
         public IActionResult ProcessUSSDRequest(Request request)
         {
+            _ussdService.ProcessUSSDRequest(request);
             return Ok();
         }
 

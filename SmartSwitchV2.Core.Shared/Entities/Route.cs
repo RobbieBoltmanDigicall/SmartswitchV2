@@ -9,6 +9,7 @@ namespace SmartSwitchV2.Core.Shared.Entities
     public class Route
     {
         public int RouteId { get; set; }
+        public string RouteName { get; set; }
         public int RouteTypeId { get; set; }
         public RouteType RouteType { get; set; }
         public string RoutePath { get; set; }

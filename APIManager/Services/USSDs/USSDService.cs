@@ -87,13 +87,17 @@ namespace APIManager.Services.USSDs
                 //TODO: Set these dynamically instead of hardcoding
                 route.Response = new SmartSwitchV2.Core.Shared.Entities.Response();
                 if (route.RouteBody != null)
+                {
+                    route.RouteBody.ApplicationTypeId = 3;
                     route.RouteBody.ApplicationType = new SmartSwitchV2.Core.Shared.Entities.ApplicationType()
                     {
                         ApplicationTypeId = 3,
                         ApplicationTypeName = "JSON"
                     };
+                }
 
                 route.RouteBody?.RouteBodyParameters.ForEach(p => p.DataType = new SmartSwitchV2.Core.Shared.Entities.DataType() { DataTypeId = p.DataTypeId, DataTypeName = "" });
+                route.RouteHeaders?.ForEach(h => h.DataType = new SmartSwitchV2.Core.Shared.Entities.DataType() { DataTypeId = h.DataTypeId, DataTypeName = "" });
                 var serializedRoute = JsonConvert.SerializeObject(route);
                 var jsonContent = new StringContent(serializedRoute, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync("Edit", jsonContent);

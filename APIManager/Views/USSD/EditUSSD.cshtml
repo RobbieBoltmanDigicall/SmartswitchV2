@@ -17,6 +17,15 @@
     <input asp-for="Route.RouteBody.ApplicationType.ApplicationTypeId" type="hidden" />
     <input asp-for="Route.RouteBody.ApplicationType.ApplicationTypeName" type="hidden" />
     <input asp-for="Route.RouteId" type="hidden"/>
+
+    <div class="row mt-3">
+        <div class="form-group">
+            <label asp-for="Route.RouteName" class="control-label fw-bold"></label>
+            <input asp-for="Route.RouteName" class="form-control" />
+            <span asp-validation-for="Route.RouteName" class="text-danger"></span>
+        </div>
+    </div>
+    
     <div class="row mt-3">
         <div class="form-group">
             <label asp-for="Route.RoutePath" class="control-label fw-bold"></label>
@@ -72,7 +81,7 @@
                                 <td>
                                     @Html.DropDownListFor(
                                              model => model.Route.RouteHeaders[i].DataTypeId,
-                                             new SelectList(Model.DataTypes, "Value", "Text", Model.Route.RouteHeaders[i].DataTypeId),
+                                             new SelectList(Model.DataTypes.Items, "Value", "Text", Model.Route.RouteHeaders[i].DataTypeId),
                                              new { @class = "form-control" }
                                              )
                                 </td>

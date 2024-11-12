@@ -7,6 +7,7 @@ namespace SmartSwitchV2.DataLayer.Repositories.Interfaces
         List<Route> GetAllRoutes(int systemId, bool lazyLoad = true);
         List<Route> GetAllRoutesForClient(int clientId);
         Route GetRouteModelByRouteId(int routeId);
+        Route GetRouteModelByRouteName(string name);
         bool UpdateRoute(Route route);        
         bool AddRoute(Route route);
         bool DeleteRoute(int routeId);
