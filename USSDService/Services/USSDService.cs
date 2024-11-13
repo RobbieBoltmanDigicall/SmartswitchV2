@@ -46,11 +46,14 @@ namespace USSDService.Services
                 HttpClient httpClient = new();
                 var response = httpClient.Send(httpRequest);
 
-                return new Response()
+                var responseObject = new Response()
                 {
                     ResponseContent = await response.Content.ReadAsStringAsync(),
+                    ReasonPhrase = response.ReasonPhrase,
                     ResponseStatus = response.StatusCode
                 };
+
+                return responseObject;
             }
 
             return new Response();

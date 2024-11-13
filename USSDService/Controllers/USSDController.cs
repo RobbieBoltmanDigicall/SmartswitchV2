@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using SmartSwitchV2.Core.Shared.Entities;
 using USSDService.Services;
 using Route = SmartSwitchV2.DataLayer.HTTPDefinitions.Route;
@@ -30,10 +31,14 @@ namespace USSDService.Controllers
             => _ussdService.GetUSSDRouteById(routeId);
 
         [HttpPost("ProcessRequest")]
-        public IActionResult ProcessUSSDRequest(Request request)
+        public async Task<IActionResult> ProcessUSSDRequest(Request request)
         {
-            _ussdService.ProcessUSSDRequest(request);
-            return Ok();
+            var result = await _ussdService.ProcessUSSDRequest(request);
+            if (result.ResponseStatus == System.Net.HttpStatusCode.OK)
+                return Ok(result);
+            else 
+                return BadRequest(result);
+            
         }
 
         [HttpPost("Edit")]

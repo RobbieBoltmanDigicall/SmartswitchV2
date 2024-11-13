@@ -11,12 +11,12 @@
     <input asp-for="Route.RouteBody.RouteBodyId" type="hidden" />
     <input id="hdn-method-type-name" asp-for="Route.MethodType.MethodTypeName" type="hidden" />
     <input id="hdn-route-type-name" asp-for="Route.RouteType.RouteTypeName" type="hidden" />
+    <input id="hdn-application-type-name" asp-for="Route.RouteBody.ApplicationType.ApplicationTypeName" type="hidden" />
     <input asp-for="Route.RouteBody.RouteId" type="hidden" />
     <input asp-for="Route.RouteBody.BodyType.BodyTypeName" type="hidden" />
     <input asp-for="Route.RouteBody.BodyType.BodyTypeId" type="hidden" />
-    <input asp-for="Route.RouteBody.ApplicationType.ApplicationTypeId" type="hidden" />
-    <input asp-for="Route.RouteBody.ApplicationType.ApplicationTypeName" type="hidden" />
     <input asp-for="Route.RouteId" type="hidden"/>
+    <input id="data-types-select-list" value="@Model.DataTypes.Items" type="hidden" />
 
     <div class="row mt-3">
         <div class="form-group">
@@ -36,7 +36,7 @@
 
     <div class="row mt-3">
         <div class="form-group col-6">
-            <label asp-for="RouteTypes" class="control-label fw-bold"></label>
+            <label class="control-label fw-bold">Route Type</label>
             @Html.DropDownListFor(
                      model => model.Route.RouteType.RouteTypeId,
                      new SelectList(
@@ -45,7 +45,7 @@
                      "Text",
                      Model.Route.RouteType
                      ),
-                     new { @class = "form-control", @id = "select-list-route-types" }
+                     new { @class = "form-control data-type-select-list", @id = "select-list-route-types" }
                      )
         </div>
 
@@ -60,12 +60,13 @@
     <div class="row mt-3">
         <label class="control-label fw-bold">Route Headers</label>
         <div class="table-responsive table-route-headers">
-            <table class="table mb-0">
+            <table id="table-route-headers" class="table mb-0">
                 <thead class="small text-uppercase bg-body text-muted">
                     <tr>
                         <th>Key</th>
                         <th>Value (optional)</th>
                         <th>Data Type</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,7 +74,7 @@
                     {
                         @for (int i = 0; i < Model.Route.RouteHeaders.Count; i++)
                         {
-                            <tr class="align-middle">
+                            <tr class="align-middle" id="header-@i">
                                 @Html.HiddenFor(r => r.Route.RouteHeaders[i].RouteHeaderId)
                                 @Html.HiddenFor(r => r.Route.RouteHeaders[i].RouteId)
                                 <td>@Html.TextBoxFor(r => r.Route.RouteHeaders[i].HeaderKey)</td>
@@ -85,12 +86,14 @@
                                              new { @class = "form-control" }
                                              )
                                 </td>
+                                <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Remove</button></td>
                             </tr>
                         }
                     }
                 </tbody>
             </table>
         </div>
+        <button type="button" class="btn btn-primary mt-3 col-2 offset-4" onclick="addHeaderRow()">Add Header</button>
     </div>
 
     <!--EXPAND ON ROUTE PARAMS HERE-->
@@ -103,6 +106,7 @@
                         <th>Key</th>
                         <th>Value (optional)</th>
                         <th>Data Type</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -113,13 +117,15 @@
                             <tr class="align-middle">
                                 <td>@param.ParameterKey</td>
                                 <td>@param.ParameterValue</td>
-                                <td>@param.DataType?.DataTypeName</td>                            
+                                <td>@param.DataType?.DataTypeName</td>
+                                <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Remove</button></td>
                             </tr>
                         }
                     }
                 </tbody>
             </table>
         </div>
+        <button type="button" class="btn btn-primary mt-3 col-2 offset-4" onclick="addParamRow()">Add Parameter</button>
     </div>
 
     <!--EXPAND ON ROUTE BODY HERE-->
@@ -132,6 +138,7 @@
                         <th>Key</th>
                         <th>Value (optional)</th>
                         <th>Data Type</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -150,18 +157,20 @@
                                              new SelectList(Model.DataTypes.Items, "Value", "Text", Model.Route.RouteBody.RouteBodyParameters[i].DataTypeId),
                                              new { @class = "form-control" }
                                              )
-                                </td>                               
+                                </td>
+                                <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Remove</button></td>
                             </tr>
                         }
                     }
                 </tbody>
             </table>
         </div>
+        <button type="button" class="btn btn-primary mt-3 col-2 offset-4" onclick="addBodyParamRow()">Add Body Parameter</button>
     </div>
 
     <div class="row mt-3">
         <div class="form-group col-6">
-            <label asp-for="MethodTypes" class="control-label fw-bold"></label>
+            <label class="control-label fw-bold">Method Type</label>
             @Html.DropDownListFor(
                      model => model.Route.MethodType.MethodTypeId,
                      new SelectList(
@@ -172,12 +181,19 @@
                      ),
                      new { @class = "form-control", @id="select-list-method-types" }
                      )
-        </div>    
-
+        </div>
         <div class="form-group col-6">
-            <label asp-for="Clients" class="control-label fw-bold"></label>
-            <input asp-for="Clients" class="form-control" />
-            <span asp-validation-for="Clients" class="text-danger"></span>
+            <label class="control-label fw-bold">Application Type</label>
+            @Html.DropDownListFor(
+                     model => model.Route.RouteBody.ApplicationType.ApplicationTypeId,
+                     new SelectList(
+                     Model.ApplicationTypes.Items,
+                     "Value",
+                     "Text",
+                     Model.Route.RouteBody?.ApplicationType
+                     ),
+                     new { @class = "form-control", @id = "select-list-application-types" }
+                     )
         </div>
     </div>
     <!--EXPAND ON ROUTE RESPONSE HERE-->

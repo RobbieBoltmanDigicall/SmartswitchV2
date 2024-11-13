@@ -9,8 +9,8 @@ namespace SmartSwitchV2.Core.Shared.Entities
 {
     public class Response
     {
-        public int ResponseId { get; set; }
         public string ResponseContent { get; set; } = string.Empty;
+        public string? ReasonPhrase { get;set; }
         public HttpStatusCode ResponseStatus { get; set; } = HttpStatusCode.NoContent;
     }
 }

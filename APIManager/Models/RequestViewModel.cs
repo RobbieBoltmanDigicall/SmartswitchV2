@@ -13,5 +13,6 @@ namespace APIManager.Models
         public SelectList RouteTypes { get; set; }
         public SelectList MethodTypes { get; set; }
         public SelectList DataTypes { get; set; }
+        public SelectList ApplicationTypes { get; set; }
     }
 }
