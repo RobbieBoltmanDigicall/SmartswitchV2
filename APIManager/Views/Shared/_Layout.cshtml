@@ -12,12 +12,13 @@
 </head>
 <body>
     <header>
-        <nav class="bg-white border-bottom box-shadow mb-3">
+        <nav class="bg-white border-bottom box-shadow mb-3 p-2">
             <div class="container-fluid">
                 <a class="col-1 m-3" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
                     <i class="fa-solid fa-bars fa-2xl"></i>
                 </a>
                 <a class="navbar-brand text-black" asp-area="" asp-controller="Home" asp-action="Index">APIManager</a>
+                <div class="btn btn-primary float-end">Login</div>
 @*                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
@@ -43,6 +44,8 @@
         <div class="offcanvas-body">
             <a class="nav-link text-dark" asp-area="" asp-controller="Claims" asp-action="ClaimsList">Claims Manager</a>
             <a class="nav-link text-dark" asp-area="" asp-controller="USSD" asp-action="USSDList">USSD Manager</a>
+            <a class="nav-link text-dark">Client Manager</a>
+            <a class="nav-link text-dark">Metrics</a>
         </div>
     </div>
     <div class="container">
