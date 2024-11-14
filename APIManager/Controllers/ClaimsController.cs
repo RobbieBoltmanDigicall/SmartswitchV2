@@ -53,6 +53,14 @@ namespace APIManager.Controllers
                     new SelectListItem() { Text = "OPTIONS", Value = "7" }
                 };
 
+                var applicationTypes = new List<SelectListItem>() {
+                    new SelectListItem() { Text = "Text", Value = "1" },
+                    new SelectListItem() { Text = "Javascript", Value = "2" },
+                    new SelectListItem() { Text = "JSON", Value = "3" },
+                    new SelectListItem() { Text = "HTML", Value = "4" },
+                    new SelectListItem() { Text = "XML", Value = "5" },
+                };
+
                 var dataTypes = new List<SelectListItem>() {
                     new SelectListItem() { Text = "Boolean", Value = "1" },
                     new SelectListItem() { Text = "Byte", Value = "2" },
@@ -78,6 +86,7 @@ namespace APIManager.Controllers
                 viewModel.RouteTypes = new SelectList(routeTypes);
                 viewModel.MethodTypes = new SelectList(methodTypes);
                 viewModel.DataTypes = new SelectList(dataTypes);
+                viewModel.ApplicationTypes = new SelectList(applicationTypes);
 
                 return View("~/Views/Claims/EditClaim.cshtml", viewModel);
             }

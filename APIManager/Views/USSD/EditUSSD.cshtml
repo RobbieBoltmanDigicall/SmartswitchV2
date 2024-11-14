@@ -83,7 +83,7 @@
                                     @Html.DropDownListFor(
                                              model => model.Route.RouteHeaders[i].DataTypeId,
                                              new SelectList(Model.DataTypes.Items, "Value", "Text", Model.Route.RouteHeaders[i].DataTypeId),
-                                             new { @class = "form-control" }
+                                             new { @class = "form-control select-data-type" }
                                              )
                                 </td>
                                 <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Remove</button></td>
@@ -155,7 +155,7 @@
                                     @Html.DropDownListFor(
                                              model => model.Route.RouteBody.RouteBodyParameters[i].DataTypeId,
                                              new SelectList(Model.DataTypes.Items, "Value", "Text", Model.Route.RouteBody.RouteBodyParameters[i].DataTypeId),
-                                             new { @class = "form-control" }
+                                             new { @class = "form-control select-data-type" }
                                              )
                                 </td>
                                 <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Remove</button></td>
