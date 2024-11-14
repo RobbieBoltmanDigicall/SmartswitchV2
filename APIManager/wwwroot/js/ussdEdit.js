@@ -24,7 +24,7 @@ function addHeaderRow() {
     var cell2 = newRow.insertCell(2);
     var cell3 = newRow.insertCell(3);
 
-    cell0.innerHTML = `<input data-val="true" data-val-required="The HeaderKey field is required." id="Route_RouteHeaders_${lastIndex}__HeaderKey" name="Route.RouteHeaders[${lastIndex}].HeaderKey" type="text" value="">`;
+    cell0.innerHTML = `<input data-val="true" data-val-required="The HeaderKey field is required." id="Route_RouteHeaders_${lastIndex}__HeaderKey" name="Route.RouteHeaders[${lastIndex}].HeaderKey" type="text" value="" required>`;
     cell1.innerHTML = `<input id="Route_RouteHeaders_${lastIndex}__HeaderValue" name="Route.RouteHeaders[${lastIndex}].HeaderValue" type="text" value="">`;
     cell2.innerHTML = `<select class="form-control" data-val="true" data-val-required="The DataTypeId field is required." id="Route_RouteHeaders_${lastIndex}__DataTypeId" name="Route.RouteHeaders[${lastIndex}].DataTypeId">${selectOptions}</select>`;
     cell3.innerHTML = `<button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Remove</button>`;

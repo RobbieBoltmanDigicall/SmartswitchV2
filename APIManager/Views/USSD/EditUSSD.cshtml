@@ -77,7 +77,7 @@
                             <tr class="align-middle" id="header-@i">
                                 @Html.HiddenFor(r => r.Route.RouteHeaders[i].RouteHeaderId)
                                 @Html.HiddenFor(r => r.Route.RouteHeaders[i].RouteId)
-                                <td>@Html.TextBoxFor(r => r.Route.RouteHeaders[i].HeaderKey)</td>
+                                <td>@Html.TextBoxFor(r => r.Route.RouteHeaders[i].HeaderKey, null, new {@required = "required"})</td>
                                 <td>@Html.TextBoxFor(r => r.Route.RouteHeaders[i].HeaderValue)</td>
                                 <td>
                                     @Html.DropDownListFor(

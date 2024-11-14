@@ -167,7 +167,21 @@ namespace ClaimsService.Models.Repositories
         {
             try
             {
-                // Save changes
+                //Remove children objects that are not included in updated route argument.
+                var headers = _context.RouteHeaders.AsNoTracking().Where(h => h.RouteId == route.RouteId).ToList();
+                var headersToDelete = new List<RouteHeader>();
+
+                if (headers?.Count > 0)
+                {
+                    if (route.RouteHeaders?.Count > 0)
+                    {
+                        headersToDelete = headers.Where(h => !route.RouteHeaders.Any(rh => rh.RouteHeaderId == h.RouteHeaderId)).ToList();
+                    }
+                    else
+                        headersToDelete = headers.ToList();
+                    _context.RouteHeaders.RemoveRange(headersToDelete);
+                }                                                                
+
                 _context.Routes.Update(route);
                 _context.SaveChanges();
 
@@ -175,7 +189,6 @@ namespace ClaimsService.Models.Repositories
             }
             catch (Exception ex)
             {
-                // Log the exception
                 Console.WriteLine(ex.Message);
                 return false;
             }
