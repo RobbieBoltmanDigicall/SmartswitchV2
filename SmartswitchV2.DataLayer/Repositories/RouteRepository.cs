@@ -171,9 +171,11 @@ namespace ClaimsService.Models.Repositories
                 var headersToDelete = new List<RouteHeader>();
                 var parametersToDelete = new List<RouteParameter>();
                 var bodyParametersToDelete = new List<RouteBodyParameter>();
+                var routeBody = _context.RouteBodies.AsNoTracking().Where(rb => rb.RouteId == route.RouteId).FirstOrDefault() ?? route.RouteBody;
                 var headers = _context.RouteHeaders.AsNoTracking().Where(h => h.RouteId == route.RouteId).ToList();
                 var parameters = _context.RouteParameters.AsNoTracking().Where(p => p.RouteId == route.RouteId).ToList();
-                var bodyParameters = route.RouteBody == null ? null : _context.RouteBodyParameters.AsNoTracking().Where(bp => bp.RouteBodyId == route.RouteBody.RouteBodyId).ToList();
+                var bodyParameters = routeBody == null ? null 
+                    : _context.RouteBodyParameters.AsNoTracking().Where(bp => bp.RouteBodyId == routeBody.RouteBodyId).ToList();
 
 
                 if (headers?.Count > 0)
@@ -198,16 +200,16 @@ namespace ClaimsService.Models.Repositories
                     _context.RouteParameters.RemoveRange(parametersToDelete);
                 }
 
-                if (route.RouteBody != null && bodyParameters?.Count > 0)
+
+                if (route.RouteBody?.RouteBodyParameters.Count > 0)
                 {
-                    if (route.RouteHeaders?.Count > 0)
-                    {
-                        bodyParametersToDelete = bodyParameters.Where(bp => !route.RouteBody.RouteBodyParameters.Any(rbp => rbp.RouteBodyParameterId == bp.RouteBodyParameterId)).ToList();
-                    }
-                    else
-                        bodyParametersToDelete = bodyParameters.ToList();
-                    _context.RouteBodyParameters.RemoveRange(bodyParametersToDelete);
+                    bodyParametersToDelete = bodyParameters?.Where(bp => !route.RouteBody.RouteBodyParameters.Any(rbp => rbp.RouteBodyParameterId == bp.RouteBodyParameterId)).ToList();
                 }
+                else
+                    bodyParametersToDelete = bodyParameters?.ToList();
+                if (bodyParametersToDelete != null)
+                    _context.RouteBodyParameters.RemoveRange(bodyParametersToDelete);
+                
 
                 _context.Routes.Update(route);
                 _context.SaveChanges();

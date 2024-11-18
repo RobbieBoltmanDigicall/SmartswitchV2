@@ -98,6 +98,12 @@ namespace APIManager.Controllers
             return BadRequest();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> AddUssd()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> USSDList()
         {
             var viewModel = await _ussdService.ListAllUSSDRoutes();

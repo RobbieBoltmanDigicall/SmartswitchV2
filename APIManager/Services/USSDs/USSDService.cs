@@ -92,6 +92,7 @@ namespace APIManager.Services.USSDs
                 else
                     route.RouteBody = null;
                 route.RouteHeaders?.ForEach(h => h.DataType = new SmartSwitchV2.Core.Shared.Entities.DataType() { DataTypeId = h.DataTypeId, DataTypeName = "" });
+                route.RouteParameters?.ForEach(h => h.DataType = new SmartSwitchV2.Core.Shared.Entities.DataType() { DataTypeId = h.DataTypeId, DataTypeName = "" });
                 var serializedRoute = JsonConvert.SerializeObject(route);
                 var jsonContent = new StringContent(serializedRoute, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync("Edit", jsonContent);
