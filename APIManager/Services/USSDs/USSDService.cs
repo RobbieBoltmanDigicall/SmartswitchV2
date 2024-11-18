@@ -87,7 +87,10 @@ namespace APIManager.Services.USSDs
                 //TODO: Set these dynamically instead of hardcoding
                 route.Response = new SmartSwitchV2.Core.Shared.Entities.Response();
 
-                route.RouteBody?.RouteBodyParameters.ForEach(p => p.DataType = new SmartSwitchV2.Core.Shared.Entities.DataType() { DataTypeId = p.DataTypeId, DataTypeName = "" });
+                if (route.RouteBody?.RouteBodyParameters != null && route.RouteBody.RouteBodyParameters.Count > 0)
+                    route.RouteBody.RouteBodyParameters.ForEach(p => p.DataType = new SmartSwitchV2.Core.Shared.Entities.DataType() { DataTypeId = p.DataTypeId, DataTypeName = "" });
+                else
+                    route.RouteBody = null;
                 route.RouteHeaders?.ForEach(h => h.DataType = new SmartSwitchV2.Core.Shared.Entities.DataType() { DataTypeId = h.DataTypeId, DataTypeName = "" });
                 var serializedRoute = JsonConvert.SerializeObject(route);
                 var jsonContent = new StringContent(serializedRoute, Encoding.UTF8, "application/json");
