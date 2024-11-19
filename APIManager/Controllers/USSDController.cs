@@ -91,10 +91,12 @@ namespace APIManager.Controllers
                     new SelectListItem() { Text = "Uri", Value = "19" }
                 };
 
-                var listRoutesInSystem = await _ussdService.ListAllUSSDRoutes();
+                var listRoutesInSystem = await _ussdService.ListAllUSSDRoutes();                
                 var routesSelectList = listRoutesInSystem
                     .Where(r => r.Route.RouteId != viewModel.Route.RouteId && !r.Route.RouteParentId.HasValue)
                     .Select(r => new SelectListItem() { Value = r.Route.RouteId.ToString(), Text = r.Route.RouteName}).ToList();
+
+                viewModel.LinkedRouteNames = listRoutesInSystem.Where(r => r.Route.RouteParentId == viewModel.Route.RouteId).Select(r => r.Route.RouteName).ToList();
                 viewModel.IsParent = listRoutesInSystem.Any(r => r.Route.RouteParentId == viewModel.Route.RouteId);
                 viewModel.ListRoutesInSystem = new SelectList(routesSelectList);
                 viewModel.RouteTypes = new SelectList(routeTypes);

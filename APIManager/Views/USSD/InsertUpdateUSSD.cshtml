@@ -73,7 +73,17 @@
             }
             else
             {
-                <label class="control-label fw-bold">This route is a parent route and cannot be linked.</label>
+                <row>
+                    <div class="small bg-warning p-3 rounded-3">
+                        <span class="fw-bold">This route is a parent route and cannot be linked. </span> <br /> Children routes:
+                    <ul class="mt-1">
+                    @foreach (var route in Model.LinkedRouteNames)
+                    {
+                        <li>@route</li>
+                    }
+                    </ul>
+                    </div>
+                </row>
             }
         </div>
     </div>

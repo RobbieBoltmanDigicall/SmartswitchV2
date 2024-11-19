@@ -16,6 +16,7 @@ namespace APIManager.Models
         public SelectList DataTypes { get; set; }
         public SelectList ApplicationTypes { get; set; }
         public SelectList ListRoutesInSystem { get; set; }
+        public List<string> LinkedRouteNames { get; set; }
         public bool IsParent { get; set; }
     }
 }
