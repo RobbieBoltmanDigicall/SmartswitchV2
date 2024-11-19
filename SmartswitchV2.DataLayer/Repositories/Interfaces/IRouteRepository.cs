@@ -8,8 +8,7 @@ namespace SmartSwitchV2.DataLayer.Repositories.Interfaces
         List<Route> GetAllRoutesForClient(int clientId);
         Route GetRouteModelByRouteId(int routeId);
         Route GetRouteModelByRouteName(string name);
-        bool UpdateRoute(Route routeToUpdate);        
-        bool AddRoute(Route route);
+        bool InsertUpdateRoute(Route routeToUpdate);        
         bool DeleteRoute(int routeId);
     }
 }

@@ -29,7 +29,7 @@ namespace USSDService.Services
         {
             var routeToUpdate = ClassConverter.RouteConvert(route);
 
-            return _routeRepository.UpdateRoute(routeToUpdate);
+            return _routeRepository.InsertUpdateRoute(routeToUpdate);
         }
 
         public Route GetUSSDRouteByName(string name)

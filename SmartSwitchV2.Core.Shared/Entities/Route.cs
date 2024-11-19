@@ -11,16 +11,16 @@ namespace SmartSwitchV2.Core.Shared.Entities
         public int RouteId { get; set; }
         public string RouteName { get; set; }
         public int RouteTypeId { get; set; }
-        public RouteType RouteType { get; set; }
+        public RouteType RouteType { get; set; } = new();
         public string RoutePath { get; set; }
         public int Order { get; set; }
         public List<RouteHeader>? RouteHeaders { get; set; }
         public List<RouteParameter>? RouteParameters { get; set; }
         public RouteBody? RouteBody { get; set; }
         public int MethodTypeId { get; set; }
-        public MethodType MethodType { get; set; }
+        public MethodType MethodType { get; set; } = new();
         public List<Client>? Clients { get; set; }
-        public Response Response { get; set; }
+        public Response Response { get; set; } = new();
         //public string? FailOverURL { get; set; }
         //public int? RetryAttempts { get; set; }
     }

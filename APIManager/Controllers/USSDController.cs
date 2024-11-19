@@ -24,13 +24,27 @@ namespace APIManager.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> EditUSSD(int routeId)
+        public async Task<IActionResult> InsertUpdateUSSD(int routeId)
         {
             try
             {
-                RequestViewModel viewModel = await _ussdService.GetUSSDRouteById(routeId);
-                //var serializedRoute = JsonConvert.SerializeObject(viewModel.Route);
-                //TODO: Dynamically retrieve this from DB
+                RequestViewModel viewModel;
+                viewModel = routeId != 0 ? await _ussdService.GetUSSDRouteById(routeId) 
+                    : new RequestViewModel() 
+                    { 
+                        Route = new Route()
+                        {
+                            RouteType = new RouteType() { RouteTypeName = "REST", RouteTypeId = 1},
+                            MethodType = new MethodType() { MethodTypeId = 1, MethodTypeName = "GET"},
+                            RouteBody = new RouteBody() 
+                            { 
+                                BodyType = new BodyType() { BodyTypeId = 1, BodyTypeName = "form-data"},
+                                ApplicationType = new ApplicationType() { ApplicationTypeId = 1, ApplicationTypeName = "TEXT"},
+                                RouteBodyParameters = new List<RouteBodyParameter>()                                
+                            }
+                        }
+                    };
+
                 var routeTypes = new List<SelectListItem>() {
                     new SelectListItem() { Text = "REST", Value = "1" },
                     new SelectListItem() { Text = "SOAP", Value = "2" }
@@ -81,7 +95,7 @@ namespace APIManager.Controllers
                 viewModel.DataTypes = new SelectList(dataTypes);
                 viewModel.ApplicationTypes = new SelectList(applicationTypes);
 
-                return View("~/Views/USSD/EditUSSD.cshtml", viewModel);
+                return View("~/Views/USSD/InsertUpdateUSSD.cshtml", viewModel);
             }
             catch (Exception ex)
             {;
@@ -90,19 +104,13 @@ namespace APIManager.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditUSSD(RequestViewModel requestViewModel)
+        public async Task<IActionResult> InsertUpdateUSSD(RequestViewModel requestViewModel)
         {
             var result = await _ussdService.UpdateRequest(requestViewModel.Route);
             if (result)
                 return await USSDList();
             return BadRequest();
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> AddUssd()
-        {
-            return View();
-        }
+        }        
 
         public async Task<IActionResult> USSDList()
         {

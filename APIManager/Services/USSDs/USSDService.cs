@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
+using SmartSwitchV2.Core.Shared.Entities;
 using Route = SmartSwitchV2.Core.Shared.Entities.Route;
 
 namespace APIManager.Services.USSDs
@@ -93,6 +94,10 @@ namespace APIManager.Services.USSDs
                     route.RouteBody = null;
                 route.RouteHeaders?.ForEach(h => h.DataType = new SmartSwitchV2.Core.Shared.Entities.DataType() { DataTypeId = h.DataTypeId, DataTypeName = "" });
                 route.RouteParameters?.ForEach(h => h.DataType = new SmartSwitchV2.Core.Shared.Entities.DataType() { DataTypeId = h.DataTypeId, DataTypeName = "" });
+
+                if (route.Clients == null)
+                    route.Clients = new List<Client>();
+
                 var serializedRoute = JsonConvert.SerializeObject(route);
                 var jsonContent = new StringContent(serializedRoute, Encoding.UTF8, "application/json");
                 var response = await _httpClient.PostAsync("Edit", jsonContent);

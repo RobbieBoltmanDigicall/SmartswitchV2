@@ -50,11 +50,7 @@ namespace SmartSwitchV2.Core.Shared.Utilities
                     RouteId = rp.RouteId,
                     ParameterKey = rp.ParameterKey,
                     ParameterValue = rp.ParameterValue,
-                    DataType = new SmartSwitchV2.DataLayer.HTTPDefinitions.DataType()
-                    {
-                        DataTypeId = rp.DataType.DataTypeId,
-                        DataTypeName = rp.DataType.DataTypeName
-                    }
+                    DataTypeId = rp.DataTypeId,
                 }).ToList();
             }
 
@@ -69,7 +65,7 @@ namespace SmartSwitchV2.Core.Shared.Utilities
                         BodyTypeId = route.RouteBody.BodyType.BodyTypeId,
                         BodyTypeName = route.RouteBody.BodyType.BodyTypeName
                     },
-                    ApplicationTypeId = route.RouteBody.ApplicationTypeId,
+                    ApplicationTypeId = route.RouteBody.ApplicationType.ApplicationTypeId,
                     ApplicationType = new DataLayer.HTTPDefinitions.ApplicationType()
                     {
                         ApplicationTypeId = route.RouteBody.ApplicationType.ApplicationTypeId,

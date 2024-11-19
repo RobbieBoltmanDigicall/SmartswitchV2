@@ -33,7 +33,7 @@
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div>
-                                                <div class="h6 mb-0 lh-1">@route.Route.Clients.First().ClientName</div>
+                                                @* <div class="h6 mb-0 lh-1">@route.Route.Clients?.First().ClientName</div> *@
                                             </div>
                                         </div>
                                     </td>
@@ -42,7 +42,7 @@
                                     <td>@route.Route.MethodType?.MethodTypeName</td>
                                     <td>
                                         @Html.ActionLink("",
-                                                 "EditUSSD",
+                                                 "InsertUpdateUSSD",
                                                  "USSD",
                                                  new
                                                  {
@@ -70,6 +70,12 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div>
+        @Html.ActionLink("Add Route", "InsertUpdateUSSD", "USSD", new
+            {
+                routeId = 0
+            }, new { @class = "btn btn-primary" })
     </div>
 </div>
 

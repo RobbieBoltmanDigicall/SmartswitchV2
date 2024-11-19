@@ -7,11 +7,11 @@
 
 <h2>Edit Request</h2>
 
-<form asp-action="EditUSSD" method="post">
+<form asp-action="InsertUpdateUSSD" method="post">
     <input asp-for="Route.RouteBody.RouteBodyId" type="hidden" />
-    <input id="hdn-method-type-name" asp-for="Route.MethodType.MethodTypeName" type="hidden" />
-    <input id="hdn-route-type-name" asp-for="Route.RouteType.RouteTypeName" type="hidden" />
-    <input id="hdn-application-type-name" asp-for="Route.RouteBody.ApplicationType.ApplicationTypeName" type="hidden" />
+    <input id="hdn-method-type-name" asp-for="Route.MethodType.MethodTypeName" type="hidden"/>
+    <input id="hdn-route-type-name" asp-for="Route.RouteType.RouteTypeName" type="hidden"/>
+    <input id="hdn-application-type-name" asp-for="Route.RouteBody.ApplicationType.ApplicationTypeName" type="hidden"/>
     <input asp-for="Route.RouteBody.RouteId" type="hidden" />
     <input asp-for="Route.RouteBody.BodyType.BodyTypeName" type="hidden" />
     <input asp-for="Route.RouteBody.BodyType.BodyTypeId" type="hidden" />
