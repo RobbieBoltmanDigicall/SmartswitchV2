@@ -25,6 +25,7 @@ namespace ClaimsService.Models.Repositories
             {
 #pragma warning disable CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
                 var result = _context.Routes.Where(r => r.SystemId == systemId)
+                    .AsNoTracking()
                     .Include(r => r.RouteBody)
                         .ThenInclude(rb => rb.RouteBodyParameters)
                             .ThenInclude(rbp => rbp.DataType)
@@ -63,6 +64,7 @@ namespace ClaimsService.Models.Repositories
             //Seems to be fine due to EF building a query and no exception thrown when nullable types are returned from SQL.
 #pragma warning disable CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
             var result = _context.Routes
+                .AsNoTracking()
                 .Include(r => r.RouteBody)
                     .ThenInclude(rb => rb.RouteBodyParameters)
                         .ThenInclude(rbp => rbp.DataType)
@@ -92,6 +94,7 @@ namespace ClaimsService.Models.Repositories
                 //Seems to be fine due to EF building a query and no exception thrown when nullable types are returned from SQL.
 #pragma warning disable CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
                 var result = _context.Routes
+                    .AsNoTracking()
                     .Include(r => r.RouteBody)
                         .ThenInclude(rb => rb.RouteBodyParameters)
                             .ThenInclude(rbp => rbp.DataType)
@@ -129,6 +132,7 @@ namespace ClaimsService.Models.Repositories
                 //Seems to be fine due to EF building a query and no exception thrown when nullable types are returned from SQL.
 #pragma warning disable CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
                 var result = _context.Routes
+                    .AsNoTracking()
                     .Include(r => r.RouteBody)
                         .ThenInclude(rb => rb.RouteBodyParameters)
                             .ThenInclude(rbp => rbp.DataType)
@@ -155,8 +159,41 @@ namespace ClaimsService.Models.Repositories
             {
                 Console.WriteLine(ex.Message);
                 return null;
+            }                      
+        }
+
+        public List<Route> GetLinkedRoutes(int routeParentId)
+        {
+            try
+            {
+#pragma warning disable CS8620 // Argument cannot be used for parameter due to differences in the nullability of reference types.
+                var result = _context.Routes
+                    .AsNoTracking()
+                    .Include(r => r.RouteBody)
+                        .ThenInclude(rb => rb.RouteBodyParameters)
+                            .ThenInclude(rbp => rbp.DataType)
+                    .Include(r => r.RouteBody)
+                        .ThenInclude(rb => rb.ApplicationType)
+                    .Include(r => r.RouteBody)
+                        .ThenInclude(rb => rb.BodyType)
+                    .Include(r => r.RouteParameters)
+                        .ThenInclude(rp => rp.DataType)
+                    .Include(r => r.RouteHeaders)
+                        .ThenInclude(rh => rh.DataType)
+                    .Include(r => r.RouteType)
+                    .Include(r => r.MethodType)
+                    .Include(r => r.Clients)
+                    .Where(r => r.RouteParentId == routeParentId)
+                    .ToList();
+#pragma warning restore CS8620 // Argument 
+
+                return result;
             }
-                      
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
         }
 
         public bool InsertUpdateRoute(Route route)

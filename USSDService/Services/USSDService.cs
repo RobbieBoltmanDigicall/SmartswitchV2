@@ -4,6 +4,7 @@ using System.Text;
 using Route = SmartSwitchV2.DataLayer.HTTPDefinitions.Route;
 using SmartSwitchV2.Core.Shared.Entities;
 using SmartSwitchV2.Core.Shared.Utilities;
+using Newtonsoft.Json;
 
 namespace USSDService.Services
 {
@@ -38,7 +39,35 @@ namespace USSDService.Services
         public async Task<Response> ProcessUSSDRequest(Request request)
         {
             var route = _routeRepository.GetRouteModelByRouteName(request.RouteName);
+            var LinkedRoutes = _routeRepository.GetLinkedRoutes(route.RouteId).OrderBy(r => r.Order);
+            Dictionary<string, string> responses = [];
 
+            foreach (var childRoute in LinkedRoutes)
+            {
+                if (childRoute.RouteType.RouteTypeName == "REST")
+                {
+                    var httpRequest = RequestMapper.MapRouteToHTTPRequest(childRoute, request);
+                    HttpClient httpClient = new();
+                    var response = httpClient.Send(httpRequest);
+
+                    var responseObject = new Response()
+                    {
+                        ResponseContent = await response.Content.ReadAsStringAsync(),
+                        ReasonPhrase = response.ReasonPhrase,
+                        ResponseStatus = response.StatusCode
+                    };  
+                    
+                    if (responseObject.ResponseStatus == System.Net.HttpStatusCode.OK)
+                    {
+                        var content = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseObject.ResponseContent);
+                        if (content != null)
+                        {
+                            foreach (var key in content)
+                                responses.Add(key.Key, key.Value);
+                        }
+                    }
+                }
+            }
 
             if (route.RouteType.RouteTypeName == "REST")
             {

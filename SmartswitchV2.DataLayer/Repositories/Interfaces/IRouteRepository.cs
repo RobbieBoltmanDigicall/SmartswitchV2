@@ -10,5 +10,6 @@ namespace SmartSwitchV2.DataLayer.Repositories.Interfaces
         Route GetRouteModelByRouteName(string name);
         bool InsertUpdateRoute(Route routeToUpdate);        
         bool DeleteRoute(int routeId);
+        List<Route> GetLinkedRoutes(int routeParentId);
     }
 }
