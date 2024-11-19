@@ -19,6 +19,8 @@ namespace SmartSwitchV2.DataLayer.HTTPDefinitions
         public virtual DbSet<RouteParameter> RouteParameters { get; set; }
         public virtual DbSet<Route> Routes { get; set; }
         public virtual DbSet<RouteType> RouteTypes { get; set; }
+        public virtual DbSet<RequestComponent> RequestComponents { get; set; }
+        public virtual DbSet<ResponseMapping> ResponseMappings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -106,6 +108,15 @@ namespace SmartSwitchV2.DataLayer.HTTPDefinitions
                     r => r.HasOne(typeof(Client)).WithMany().HasForeignKey("ClientId").HasPrincipalKey(nameof(Client.ClientId)),
                     j => j.HasKey("ClientId", "RouteId"));
 
+            modelBuilder.Entity<ResponseMapping>()
+                .HasOne(rm => rm.RequestComponent)
+                .WithOne()
+                .HasForeignKey<RequestComponent>(rc => rc.RequestComponentId);
+
+            modelBuilder.Entity<ResponseMapping>()
+                .HasOne(rm => rm.Route)
+                .WithOne()
+                .HasForeignKey<Route>(r => r.RouteId);
             //TODO: Finish the relationships
         }
     }
