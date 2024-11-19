@@ -6,6 +6,7 @@ namespace APIManager.Models
     public class RequestViewModel
     {
         public Route Route { get; set; }
+
         public ICollection<ClientViewModel> Clients { get; set; }
         //public List<SelectListItem> RouteTypes { get; set; }
         //public List<SelectListItem> MethodTypes { get; set; }
@@ -14,5 +15,7 @@ namespace APIManager.Models
         public SelectList MethodTypes { get; set; }
         public SelectList DataTypes { get; set; }
         public SelectList ApplicationTypes { get; set; }
+        public SelectList ListRoutesInSystem { get; set; }
+        public bool IsParent { get; set; }
     }
 }

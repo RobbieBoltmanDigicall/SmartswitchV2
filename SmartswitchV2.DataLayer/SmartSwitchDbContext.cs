@@ -55,12 +55,17 @@ namespace SmartSwitchV2.DataLayer.HTTPDefinitions
             modelBuilder.Entity<RouteParameter>()
                 .HasOne(rp => rp.DataType)
                 .WithOne()
-                .HasForeignKey<RouteParameter>(rp => rp.DataTypeId);
+                .HasForeignKey<DataType>(rp => rp.DataTypeId);
 
             modelBuilder.Entity<Route>()
                 .HasOne(r => r.Response)
                 .WithOne(r => r.Route)
                 .HasForeignKey<Response>(r => r.ResponseId);
+
+            modelBuilder.Entity<Route>()
+                .HasOne(r => r.RouteParent)
+                .WithMany()
+                .HasForeignKey(r => r.RouteId);
 
             modelBuilder.Entity<RouteBodyParameter>()
                 .HasOne(rp => rp.RouteBody)

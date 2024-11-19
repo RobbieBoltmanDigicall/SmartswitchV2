@@ -46,6 +46,7 @@ namespace ClaimsService.Models.Repositories
             else
             {
                 var result = _context.Routes.Where(r => r.SystemId == systemId)
+                    .AsNoTracking()
                     .Include(r => r.RouteBody)
                     .Include(r => r.RouteType)
                     .Include(r => r.MethodType)
@@ -180,6 +181,7 @@ namespace ClaimsService.Models.Repositories
                         if (route.RouteHeaders?.Count > 0)
                         {
                             headersToDelete = headers.Where(h => !route.RouteHeaders.Any(rh => rh.RouteHeaderId == h.RouteHeaderId)).ToList();
+
                         }
                         else
                             headersToDelete = headers.ToList();

@@ -25,6 +25,7 @@ namespace SmartSwitchV2.Core.Shared.Utilities
                     ClientId = c.ClientId,
                     ClientName = c.ClientName
                 }).ToList(),
+                RouteParentId = route.RouteParentId
                 //Response = route.Response,
                 //FailOverURL = route.FailOverURL,
                 //RetryAttempts = route.RetryAttempts

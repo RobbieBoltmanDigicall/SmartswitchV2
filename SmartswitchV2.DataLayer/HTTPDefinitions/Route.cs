@@ -16,5 +16,7 @@
         public MethodType MethodType { get; set; }
         public List<Client>? Clients { get; set; }
         public Response Response { get; set; }
+        public int? RouteParentId { get; set; }
+        public Route? RouteParent { get; set; }
     }
 }

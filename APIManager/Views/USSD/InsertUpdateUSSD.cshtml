@@ -54,6 +54,29 @@
             <span asp-validation-for="Route.Order" class="text-danger"></span>
         </div>
     </div>
+    <div class="row mt-3">
+        <div class="form-group col-12">
+            <label class="control-label fw-bold">Parent Route</label>
+            @if (!Model.IsParent)
+            {
+                @Html.DropDownListFor(
+                    m => m.Route.RouteParentId,
+                    new SelectList(
+                        Model.ListRoutesInSystem.Items,
+                        "Value",
+                        "Text",
+                        Model.Route.RouteParentId
+                    ), 
+                    "No Parent",
+                    new { @class = "form-control", @id = "select-list-route-parent" }
+                             )
+            }
+            else
+            {
+                <label class="control-label fw-bold">This route is a parent route and cannot be linked.</label>
+            }
+        </div>
+    </div>
 
     <!--EXPAND ON ROUTE HEADERS HERE-->
     <div class="row mt-3">

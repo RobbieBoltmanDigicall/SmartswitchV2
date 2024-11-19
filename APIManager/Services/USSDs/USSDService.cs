@@ -86,14 +86,16 @@ namespace APIManager.Services.USSDs
             try
             {
                 //TODO: Set these dynamically instead of hardcoding
-                route.Response = new SmartSwitchV2.Core.Shared.Entities.Response();
+                route.Response = new Response();
 
                 if (route.RouteBody?.RouteBodyParameters != null && route.RouteBody.RouteBodyParameters.Count > 0)
-                    route.RouteBody.RouteBodyParameters.ForEach(p => p.DataType = new SmartSwitchV2.Core.Shared.Entities.DataType() { DataTypeId = p.DataTypeId, DataTypeName = "" });
+                {
+                    route.RouteBody.RouteBodyParameters.ForEach(p => p.DataType = new DataType() { DataTypeId = p.DataTypeId, DataTypeName = "" });
+                }
                 else
                     route.RouteBody = null;
-                route.RouteHeaders?.ForEach(h => h.DataType = new SmartSwitchV2.Core.Shared.Entities.DataType() { DataTypeId = h.DataTypeId, DataTypeName = "" });
-                route.RouteParameters?.ForEach(h => h.DataType = new SmartSwitchV2.Core.Shared.Entities.DataType() { DataTypeId = h.DataTypeId, DataTypeName = "" });
+                route.RouteHeaders?.ForEach(h => h.DataType = new DataType() { DataTypeId = h.DataTypeId, DataTypeName = "" });
+                route.RouteParameters?.ForEach(h => h.DataType = new DataType() { DataTypeId = h.DataTypeId, DataTypeName = "" });
 
                 if (route.Clients == null)
                     route.Clients = new List<Client>();
