@@ -21,6 +21,7 @@ namespace SmartSwitchV2.DataLayer.HTTPDefinitions
         public virtual DbSet<RouteType> RouteTypes { get; set; }
         public virtual DbSet<RequestComponent> RequestComponents { get; set; }
         public virtual DbSet<ResponseMapping> ResponseMappings { get; set; }
+        public virtual DbSet<Log> Logs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

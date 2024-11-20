@@ -19,6 +19,30 @@ namespace ClaimsService.Models.Repositories
             throw new NotImplementedException();
         }
 
+        public void InsertLog(string type, string system, string requestURL, string message, string payload, string stackTrace = "", bool failed = false)
+        {
+            var log = new Log()
+            {
+                LogType = type,
+                System = system,
+                RequestURL = requestURL,
+                Message = message,
+                Payload = payload,
+                StackTrace = stackTrace,
+                Failed = failed,
+                CreatedDateTime = DateTime.Now
+            };
+            _context.Logs.Add(log);
+            _context.SaveChanges();
+        }
+
+        public List<Log> ReadLogs(DateTime startDate, DateTime endDate)
+        {
+            return _context.Logs.Where(l => l.CreatedDateTime >= startDate && l.CreatedDateTime <= endDate)
+                .AsNoTracking()
+                .ToList();
+        }
+
         public List<Route> GetAllRoutes(int systemId, bool lazyLoad = true)
         {
             if (!lazyLoad)

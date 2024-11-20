@@ -5,6 +5,7 @@ using Route = SmartSwitchV2.DataLayer.HTTPDefinitions.Route;
 using SmartSwitchV2.Core.Shared.Entities;
 using SmartSwitchV2.Core.Shared.Utilities;
 using Newtonsoft.Json;
+using SmartSwitchV2.Core.Shared.Enums;
 
 namespace USSDService.Services
 {
@@ -57,6 +58,7 @@ namespace USSDService.Services
                     && lr.RetryAttempts.Value > 0
                     && !String.IsNullOrEmpty(lr.FailOverURL))
                     {
+                        _routeRepository.InsertLog(LogType.Warning.ToString(), "USSD", lr.RoutePath, "URL Failed - retrying with failover", JsonConvert.SerializeObject(lr, Formatting.None, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore}), failed: true);
                         for (int i = 1; i < lr.RetryAttempts; i++)
                         {
                             lr.RoutePath = lr.FailOverURL;
@@ -103,14 +105,19 @@ namespace USSDService.Services
         {
             var httpRequest = RequestMapper.MapRouteToHTTPRequest(route, request);
             HttpClient httpClient = new();
+            _routeRepository.InsertLog(LogType.Info.ToString(), "USSD", route.RoutePath, "Executing route", JsonConvert.SerializeObject(route, Formatting.None, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }), failed: false);
             var response = httpClient.Send(httpRequest);
 
-            return new Response()
+            var responseObject = new Response()
             {
                 ResponseContent = await response.Content.ReadAsStringAsync(),
                 ReasonPhrase = response.ReasonPhrase,
                 ResponseStatus = response.StatusCode
             };
+
+            _routeRepository.InsertLog(LogType.Info.ToString(), "USSD", route.RoutePath, "Request response", $"Status Code: {responseObject.ResponseStatus}; Reasone Phrase: {(responseObject.ReasonPhrase != null ? responseObject.ReasonPhrase : "N/A")};", failed: responseObject.ResponseStatus != System.Net.HttpStatusCode.OK);
+
+            return responseObject;
         }
     }
 }
