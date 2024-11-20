@@ -10,5 +10,6 @@ namespace USSDService.Services
         Route GetUSSDRouteByName(string name);
         bool UpdateUSSDRoute(SmartSwitchV2.Core.Shared.Entities.Route route);
         Task<Response> ProcessUSSDRequest(Request request);
+        Task<List<Log>> ReadLogs(DateTime startDate, DateTime endDate);
     }
 }

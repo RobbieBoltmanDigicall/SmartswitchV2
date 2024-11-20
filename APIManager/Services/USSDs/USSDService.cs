@@ -117,5 +117,20 @@ namespace APIManager.Services.USSDs
                 return false;
             }
         }
+
+        public async Task<List<Log>> ReadLogs(DateTime startDate, DateTime endDate)
+        {
+            var response = await _httpClient.GetAsync($"ReadLogs?startDate={startDate}&endDate={endDate}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError("Read Logs unsuccessful");
+                return null;
+            }
+            var content = await response.Content.ReadAsStringAsync();
+            var logs = JsonConvert.DeserializeObject<List<Log>>(content);
+
+            return logs;
+        }
     }
 }

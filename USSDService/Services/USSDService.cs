@@ -101,6 +101,25 @@ namespace USSDService.Services
             return responseObject;
         }
 
+        public async Task<List<Log>> ReadLogs(DateTime startDate, DateTime endDate)
+        {
+            var logs = _routeRepository.ReadLogs(startDate, endDate);
+
+            List<Log> logsResult = logs.Select(l => new Log()
+            {
+                Id = l.Id,
+                System = l.System,
+                LogType = Enum.TryParse("Active", out LogType logType) ? logType : default,
+                Message = l.Message,
+                Payload = l.Payload,
+                StackTrace = l.StackTrace,
+                CreatedDateTime = l.CreatedDateTime,
+                Failed = l.Failed
+            }).ToList();
+
+            return logsResult;
+        }
+
         private async Task<Response> ExecuteRequest(Route route, Request request)
         {
             var httpRequest = RequestMapper.MapRouteToHTTPRequest(route, request);
@@ -118,6 +137,6 @@ namespace USSDService.Services
             _routeRepository.InsertLog(LogType.Info.ToString(), "USSD", route.RoutePath, "Request response", $"Status Code: {responseObject.ResponseStatus}; Reasone Phrase: {(responseObject.ReasonPhrase != null ? responseObject.ReasonPhrase : "N/A")};", failed: responseObject.ResponseStatus != System.Net.HttpStatusCode.OK);
 
             return responseObject;
-        }
+        }     
     }
 }

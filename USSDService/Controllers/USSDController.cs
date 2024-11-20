@@ -51,5 +51,13 @@ namespace USSDService.Controllers
             return BadRequest();
         }
 
+        [HttpGet("ReadLogs")]
+        public async Task<IActionResult> ReadLogs(DateTime startDate, DateTime endDate)
+        {
+            var result = await _ussdService.ReadLogs(startDate, endDate);
+
+            return Ok(result);
+        }
+        
     }
 }
