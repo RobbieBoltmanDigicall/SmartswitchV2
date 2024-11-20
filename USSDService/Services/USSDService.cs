@@ -39,18 +39,35 @@ namespace USSDService.Services
         public async Task<Response> ProcessUSSDRequest(Request request)
         {
             var route = _routeRepository.GetRouteModelByRouteName(request.RouteName);
-            var linkedRoutes = _routeRepository.GetLinkedRoutes(route.RouteId).OrderBy(r => r.Order);
+            var linkedRoutes = _routeRepository.GetLinkedRoutes(route.RouteId);
+            linkedRoutes.Add(route);
+            linkedRoutes = linkedRoutes.OrderBy(r => r.Order).ToList();
             var responseMappings = _responseRepository.ListResponseMappingsByRouteId(route.RouteId);
+            Response responseObject = new();
 
-            Dictionary<string, string> responses = [];
-
-            foreach (var childRoute in linkedRoutes)
+            foreach (var lr in linkedRoutes)
             {
-                if (childRoute.RouteType.RouteTypeName == "REST")
+                if (lr.RouteType.RouteTypeName == "REST")
                 {
-                    var responseObject = await ExecuteRequest(childRoute, request);
+                    responseObject = await ExecuteRequest(lr, request);
 
-                    if (responseObject.ResponseStatus == System.Net.HttpStatusCode.OK)
+                    // Perform FailOverURL and retry attempts - start at 1 due to already having executed request once at this point
+                    if (responseObject.ResponseStatus != System.Net.HttpStatusCode.OK
+                    && lr.RetryAttempts.HasValue
+                    && lr.RetryAttempts.Value > 0
+                    && !String.IsNullOrEmpty(lr.FailOverURL))
+                    {
+                        for (int i = 1; i < lr.RetryAttempts; i++)
+                        {
+                            lr.RoutePath = lr.FailOverURL;
+                            responseObject = await ExecuteRequest(lr, request);
+
+                            if (responseObject.ResponseStatus == System.Net.HttpStatusCode.OK)
+                                break;
+                        }
+                    }
+
+                    if (responseObject.ResponseStatus == System.Net.HttpStatusCode.OK && lr.RouteParentId.HasValue)
                     {
                         var content = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseObject.ResponseContent);
                         if (content != null)
@@ -58,15 +75,17 @@ namespace USSDService.Services
                             foreach (var item in content)
                             {
                                 var mapping = responseMappings.FirstOrDefault(rm => rm.ResponseArgumentName == item.Key);
-                                
+
                                 if (mapping != null)
                                     switch (mapping.RequestComponentId)
                                     {
                                         case 1: //Headers
-                                            request.Headers[mapping.ArgumentName] = item.Value;
+                                            if (request.Headers != null)
+                                                request.Headers[mapping.ArgumentName] = item.Value;
                                             break;
                                         case 2: //Parameters
-                                            request.Parameters[mapping.ArgumentName] = item.Value;
+                                            if (request.Parameters != null)
+                                                request.Parameters[mapping.ArgumentName] = item.Value;
                                             break;
                                         case 3: //BodyParameters
                                             break;
@@ -75,32 +94,9 @@ namespace USSDService.Services
                         }
                     }
                 }
-            }
+            }           
 
-            if (route.RouteType.RouteTypeName == "REST")
-            {
-                var responseObject = await ExecuteRequest(route, request);
-
-                if (responseObject.ResponseStatus != System.Net.HttpStatusCode.OK 
-                    && route.RetryAttempts.HasValue 
-                    && route.RetryAttempts.Value > 0
-                    && !String.IsNullOrEmpty(route.FailOverURL))
-                {
-                    for (int i = 1; i < route.RetryAttempts; i++)
-                    {
-                        route.RoutePath = route.FailOverURL;
-                        responseObject = await ExecuteRequest(route, request);
-
-                        if (responseObject.ResponseStatus == System.Net.HttpStatusCode.OK)
-                            break;
-                    }
-                }
-
-                return responseObject;
-            }
-            
-
-            return new Response();
+            return responseObject;
         }
 
         private async Task<Response> ExecuteRequest(Route route, Request request)
