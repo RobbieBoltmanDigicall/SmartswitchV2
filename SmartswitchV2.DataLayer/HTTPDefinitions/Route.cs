@@ -18,5 +18,7 @@
         public Response Response { get; set; }
         public int? RouteParentId { get; set; }
         public Route? RouteParent { get; set; }
+        public string? FailOverURL { get; set; }
+        public int? RetryAttempts { get; set; }
     }
 }

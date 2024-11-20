@@ -35,6 +35,10 @@ function addHeaderRow() {
                 ${selectOptions}
             </select>
         </td>
+        <td>
+            <input class="form-check-input offset-2" type="checkbox" value="" id="defaultCheck1">
+            <label class="form-check-label" for="defaultCheck1">
+        </td>
         <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Remove</button></td>
     `;
 }
@@ -67,6 +71,10 @@ function addParamRow() {
                 ${selectOptions}
             </select>
         </td>
+        <td>
+            <input class="form-check-input offset-2" type="checkbox" value="" id="defaultCheck1">
+            <label class="form-check-label" for="defaultCheck1">
+        </td>
         <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Remove</button></td>
     `;
 }
@@ -91,6 +99,10 @@ function addBodyParamRow() {
             <select class="form-control select-data-type" data-val="true" data-val-required="The DataTypeId field is required." id="Route_RouteBody_RouteBodyParameters_${lastIndex}__DataTypeId" name="Route.RouteBody.RouteBodyParameters[${lastIndex}].DataTypeId">
                 ${selectOptions}
             </select>
+        </td>
+        <td>
+            <input class="form-check-input offset-2" type="checkbox" value="" id="defaultCheck1">
+            <label class="form-check-label" for="defaultCheck1">
         </td>
         <td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Remove</button></td>
     `;

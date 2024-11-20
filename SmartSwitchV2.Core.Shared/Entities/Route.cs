@@ -22,7 +22,7 @@ namespace SmartSwitchV2.Core.Shared.Entities
         public List<Client>? Clients { get; set; }
         public Response Response { get; set; } = new();
         public int? RouteParentId { get; set; }
-        //public string? FailOverURL { get; set; }
-        //public int? RetryAttempts { get; set; }
+        public string? FailOverURL { get; set; }
+        public int? RetryAttempts { get; set; }
     }
 }

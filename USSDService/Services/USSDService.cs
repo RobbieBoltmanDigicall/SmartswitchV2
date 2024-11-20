@@ -86,6 +86,7 @@ namespace USSDService.Services
                 }
             }
 
+
             if (route.RouteType.RouteTypeName == "REST")
             {
                 var httpRequest = RequestMapper.MapRouteToHTTPRequest(route, request);
@@ -99,8 +100,33 @@ namespace USSDService.Services
                     ResponseStatus = response.StatusCode
                 };
 
+                if (responseObject.ResponseStatus != System.Net.HttpStatusCode.OK 
+                    && route.RetryAttempts.HasValue 
+                    && route.RetryAttempts.Value > 0
+                    && !String.IsNullOrEmpty(route.FailOverURL))
+                {
+                    for (int i = 1; i < route.RetryAttempts; i++)
+                    {
+                        route.RoutePath = route.FailOverURL;
+                        httpRequest = RequestMapper.MapRouteToHTTPRequest(route, request);
+                        httpClient = new();
+                        response = httpClient.Send(httpRequest);
+
+                        responseObject = new Response()
+                        {
+                            ResponseContent = await response.Content.ReadAsStringAsync(),
+                            ReasonPhrase = response.ReasonPhrase,
+                            ResponseStatus = response.StatusCode
+                        };
+
+                        if (responseObject.ResponseStatus == System.Net.HttpStatusCode.OK)
+                            break;
+                    }
+                }
+
                 return responseObject;
             }
+            
 
             return new Response();
         }
