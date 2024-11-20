@@ -48,17 +48,8 @@ namespace USSDService.Services
             {
                 if (childRoute.RouteType.RouteTypeName == "REST")
                 {
-                    var httpRequest = RequestMapper.MapRouteToHTTPRequest(childRoute, request);
-                    HttpClient httpClient = new();
-                    var response = httpClient.Send(httpRequest);
+                    var responseObject = await ExecuteRequest(childRoute, request);
 
-                    var responseObject = new Response()
-                    {
-                        ResponseContent = await response.Content.ReadAsStringAsync(),
-                        ReasonPhrase = response.ReasonPhrase,
-                        ResponseStatus = response.StatusCode
-                    };  
-                    
                     if (responseObject.ResponseStatus == System.Net.HttpStatusCode.OK)
                     {
                         var content = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseObject.ResponseContent);
@@ -86,19 +77,9 @@ namespace USSDService.Services
                 }
             }
 
-
             if (route.RouteType.RouteTypeName == "REST")
             {
-                var httpRequest = RequestMapper.MapRouteToHTTPRequest(route, request);
-                HttpClient httpClient = new();
-                var response = httpClient.Send(httpRequest);
-
-                var responseObject = new Response()
-                {
-                    ResponseContent = await response.Content.ReadAsStringAsync(),
-                    ReasonPhrase = response.ReasonPhrase,
-                    ResponseStatus = response.StatusCode
-                };
+                var responseObject = await ExecuteRequest(route, request);
 
                 if (responseObject.ResponseStatus != System.Net.HttpStatusCode.OK 
                     && route.RetryAttempts.HasValue 
@@ -108,16 +89,7 @@ namespace USSDService.Services
                     for (int i = 1; i < route.RetryAttempts; i++)
                     {
                         route.RoutePath = route.FailOverURL;
-                        httpRequest = RequestMapper.MapRouteToHTTPRequest(route, request);
-                        httpClient = new();
-                        response = httpClient.Send(httpRequest);
-
-                        responseObject = new Response()
-                        {
-                            ResponseContent = await response.Content.ReadAsStringAsync(),
-                            ReasonPhrase = response.ReasonPhrase,
-                            ResponseStatus = response.StatusCode
-                        };
+                        responseObject = await ExecuteRequest(route, request);
 
                         if (responseObject.ResponseStatus == System.Net.HttpStatusCode.OK)
                             break;
@@ -129,6 +101,20 @@ namespace USSDService.Services
             
 
             return new Response();
+        }
+
+        private async Task<Response> ExecuteRequest(Route route, Request request)
+        {
+            var httpRequest = RequestMapper.MapRouteToHTTPRequest(route, request);
+            HttpClient httpClient = new();
+            var response = httpClient.Send(httpRequest);
+
+            return new Response()
+            {
+                ResponseContent = await response.Content.ReadAsStringAsync(),
+                ReasonPhrase = response.ReasonPhrase,
+                ResponseStatus = response.StatusCode
+            };
         }
     }
 }
