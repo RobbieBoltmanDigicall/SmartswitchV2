@@ -91,6 +91,8 @@ namespace APIManager.Services.USSDs
                 if (route.RouteBody?.RouteBodyParameters != null && route.RouteBody.RouteBodyParameters.Count > 0)
                 {
                     route.RouteBody.RouteBodyParameters.ForEach(p => p.DataType = new DataType() { DataTypeId = p.DataTypeId, DataTypeName = "" });
+                    if (route.RouteBody.BodyType == null || route.RouteBody.BodyType.BodyTypeId == 0)
+                        route.RouteBody.BodyType = new BodyType() { BodyTypeId = 3, BodyTypeName = "raw" };
                 }
                 else
                     route.RouteBody = null;

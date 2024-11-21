@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace SmartSwitchV2.DataLayer.HTTPDefinitions
 {
@@ -25,6 +26,11 @@ namespace SmartSwitchV2.DataLayer.HTTPDefinitions
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Route>()
+                .Property(r => r.RouteId).ValueGeneratedOnAdd()
+                .Metadata
+                .SetBeforeSaveBehavior(PropertySaveBehavior.Ignore);
+
             modelBuilder.Entity<Route>()
                 .HasOne(r => r.RouteBody)
                 .WithOne(rb => rb.Route)
