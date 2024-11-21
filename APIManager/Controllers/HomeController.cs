@@ -47,6 +47,24 @@ namespace APIManager.Controllers
             };
 
             result.Systems.ForEach(s => s.FailedRatio = (float)s.FailedRequests / s.AmountOfRequests);
+
+            result.Systems[0].RequestsPerHour = logs
+            .Where(log => log.CreatedDateTime >= DateTime.Now.AddDays(-7) && log.Message == "Executing route")
+            .GroupBy(log => new
+            {
+                log.CreatedDateTime.Year,
+                log.CreatedDateTime.Month,
+                log.CreatedDateTime.Day,
+                log.CreatedDateTime.Hour
+            })
+            .Select(group => new RequestPerHour
+            {
+                RequestDateTimeInterval = new DateTime(group.Key.Year, group.Key.Month, group.Key.Day, group.Key.Hour, 0, 0),
+                Count = group.Count()
+            })
+            .OrderBy(result => result.RequestDateTimeInterval)
+            .ToList();
+
             result.LogViewModels = logViewModels;
 
             return View(result);

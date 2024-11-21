@@ -11,6 +11,10 @@
     {
         <input class="failed-url" type="hidden" value="@failedUrl"/>
     }
+    @foreach (var requestPH in system.RequestsPerHour)
+    {
+        <input class="requests-per-hour" type="hidden" data-interval="@requestPH.RequestDateTimeInterval" value="@requestPH.Count" />
+    }
     <input id="amount-of-requests-value" type="hidden" value="@system.AmountOfRequests" />
     <input id="amount-failed-requests-value" type="hidden" value="@system.FailedRequests" />
     <input id="failed-ratio" type="hidden" value="@system.FailedRatio" />
@@ -43,8 +47,8 @@
                 </div>
                 <div class="row">
                     <div class="col-6 text-center">
-                        <h6>Failed Ratio</h6>
-                        <canvas id="failed-url-bar-chart"></canvas>
+                        <h6>Requests per hour</h6>
+                        <canvas id="requests-per-hour-chart"></canvas>
                     </div>
                     <div class="col-6 text-center">
                         <h6>Some Other Value</h6>

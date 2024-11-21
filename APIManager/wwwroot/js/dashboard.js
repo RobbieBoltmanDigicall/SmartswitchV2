@@ -22,42 +22,60 @@
         options: {}
     });
 
-    const failedUrlBarChart = new Chart("failed-url-bar-chart", {
-        type: 'bar',
+
+    // Prepare data for Chart.js
+    const inputData = getDataFromInputs();
+    const labels = inputData.map(d => d.interval.toLocaleString());
+    const values = inputData.map(d => d.value);
+    const ctx = document.getElementById('requests-per-hour-chart').getContext('2d');;
+    // Initialize Chart.js line chart
+    const chart = new Chart(ctx, {
+        type: 'line',
         data: {
-            labels: ['URL 1', 'URL 2', 'URL 3', 'URL 4', 'URL 5', 'URL 6', 'URL 7'],
+            labels: labels,
             datasets: [{
-                data: [65, 59, 80, 81, 56, 55, 40],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(255, 205, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(201, 203, 207, 0.2)'
-                ],
-                borderColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(255, 159, 64)',
-                    'rgb(255, 205, 86)',
-                    'rgb(75, 192, 192)',
-                    'rgb(54, 162, 235)',
-                    'rgb(153, 102, 255)',
-                    'rgb(201, 203, 207)'
-                ],
-                borderWidth: 1
+                label: 'Requests per Hour',
+                data: values,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                fill: true
             }]
         },
         options: {
             scales: {
                 x: {
-                    stacked: true
+                    type: 'time',
+                    time: {
+                        unit: 'hour'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Time'
+                    }
                 },
                 y: {
-                    stacked: true
+                    title: {
+                        display: true,
+                        text: 'Number of Requests'
+                    }
                 }
             }
         }
     });
 });
+
+function getDataFromInputs() {
+    const inputs = document.querySelectorAll('.requests-per-hour');
+    const data = [];
+
+    inputs.forEach(input => {
+        const interval = input.getAttribute('data-interval');
+        const value = input.value;
+        data.push({ interval: new Date(interval), value: parseInt(value) });
+    });
+
+    // Sort data by interval
+    data.sort((a, b) => a.interval - b.interval);
+
+    return data;
+}
