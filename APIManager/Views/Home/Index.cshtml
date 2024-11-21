@@ -1,8 +1,59 @@
 ﻿@using APIManager.Models
-@model List<LogViewModel>
+@model DashboardViewModel
 
 @{
     ViewData["Title"] = "Home Page";
+}
+
+@foreach (var system in Model.Systems)
+{
+    @foreach (var failedUrl in system.MostCommonFailedUrls)
+    {
+        <input class="failed-url" type="hidden" value="@failedUrl"/>
+    }
+    <input id="amount-of-requests-value" type="hidden" value="@system.AmountOfRequests" />
+    <input id="amount-failed-requests-value" type="hidden" value="@system.FailedRequests" />
+    <input id="failed-ratio" type="hidden" value="@system.FailedRatio" />
+
+    <div class="row my-4">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <h5>@system.SystemName</h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-6 text-center">
+                        <h6>Failed Request Ratio</h6>
+                        <canvas id="failed-ratio-chart"></canvas>
+                    </div>
+                    <div class="col-6">
+                        <div class="rounded bg-warning p-3">
+                        <h6 class="text-center">Most Common Failed URLs</h6>
+                        
+                            <ul>
+                                @foreach(var url in system.MostCommonFailedUrls)
+                                {
+                                    <li>@url</li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 text-center">
+                        <h6>Failed Ratio</h6>
+                        <canvas id="failed-url-bar-chart"></canvas>
+                    </div>
+                    <div class="col-6 text-center">
+                        <h6>Some Other Value</h6>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 
 @section Scripts {

@@ -109,6 +109,7 @@ namespace USSDService.Services
             {
                 Id = l.Id,
                 System = l.System,
+                RequestURL = l.RequestURL,
                 LogType = Enum.TryParse("Active", out LogType logType) ? logType : default,
                 Message = l.Message,
                 Payload = l.Payload,

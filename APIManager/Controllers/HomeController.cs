@@ -21,8 +21,8 @@ namespace APIManager.Controllers
         public async Task<IActionResult> Index()
         {
             var logs = await _ussdService.ReadLogs(DateTime.Now.AddDays(-7), DateTime.Now);
-
-            List<LogViewModel> result = logs.Select(l => new LogViewModel()
+            DashboardViewModel result = new DashboardViewModel();
+            List<LogViewModel> logViewModels = logs.Select(l => new LogViewModel()
             {
                 System = l.System,
                 RequestURL = l.RequestURL,
@@ -32,6 +32,22 @@ namespace APIManager.Controllers
                 CreatedDateTime = l.CreatedDateTime,
                 Failed = l.Failed
             }).ToList();
+
+            //TODO: Get systems dynamically
+            result.Systems = new List<SystemDashboardViewModel>() {
+                new SystemDashboardViewModel()
+                {
+                    SystemName = "USSD",
+                    AmountOfRequests = logViewModels.Where(l => l.Message == "Executing route").Count(),
+                    FailedRequests = logViewModels.Where(l => l.Message == "URL Failed - retrying with failover").Count(),
+                    MostCommonFailedUrls = logViewModels.Where(l => l.Message == "URL Failed - retrying with failover")
+                    .GroupBy(l => l.RequestURL)
+                    .Select(l => l.Key).ToList()
+                }
+            };
+
+            result.Systems.ForEach(s => s.FailedRatio = (float)s.FailedRequests / s.AmountOfRequests);
+            result.LogViewModels = logViewModels;
 
             return View(result);
         }
