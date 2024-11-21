@@ -66,7 +66,8 @@ namespace SmartSwitchV2.Core.Shared.Utilities
                     var headerPair = processRequest.Headers?.FirstOrDefault(h => h.Key == header.HeaderKey);
                     if (headerPair == null)
                         throw new Exception("Request headers does not match route headers");
-                    request.Headers.Add(header.HeaderKey, $"{(!String.IsNullOrEmpty(header.HeaderValue) ? header.HeaderValue + headerPair.Value.Value : headerPair.Value.Value) }");
+                    if (!String.IsNullOrEmpty(header.HeaderValue) || !String.IsNullOrEmpty(headerPair.Value.Value))
+                        request.Headers.Add(header.HeaderKey, $"{(!String.IsNullOrEmpty(header.HeaderValue) ? header.HeaderValue + headerPair.Value.Value : headerPair.Value.Value) }");
                 }
                     
             
