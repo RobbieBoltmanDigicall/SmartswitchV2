@@ -7,23 +7,23 @@ using System.Text;
 using SmartSwitchV2.Core.Shared.Entities;
 using Route = SmartSwitchV2.Core.Shared.Entities.Route;
 
-namespace APIManager.Services.USSDs
+namespace APIManager.Services.APIs
 {
-    public class USSDService : IUSSDService
+    public class APIService : IAPIService
     {
-        private readonly ILogger<USSDService> _logger;
+        private readonly ILogger<APIService> _logger;
         private readonly HttpClient _httpClient;
         private readonly IConfiguration _config;
 
-        public USSDService(ILogger<USSDService> logger, HttpClient httpClient, IConfiguration config)
+        public APIService(ILogger<APIService> logger, HttpClient httpClient, IConfiguration config)
         {
             _logger = logger;
             _httpClient = httpClient;
             _config = config;
-            _httpClient.BaseAddress = new Uri(_config.GetValue<string>("AppSettings:USSDServiceUrl"));
+            _httpClient.BaseAddress = new Uri(_config.GetValue<string>("AppSettings:APIServiceUrl"));
         }
 
-        public async Task<List<RequestViewModel>> ListAllUSSDRoutes(bool lazyLoad = true)
+        public async Task<List<RequestViewModel>> ListAllAPIRoutes(bool lazyLoad = true)
         {
             var response = await _httpClient.GetAsync($"GetAllRoutes?lazyLoad={lazyLoad}");
 
@@ -55,9 +55,9 @@ namespace APIManager.Services.USSDs
             return result;
         }
 
-        public async Task<RequestViewModel> GetUSSDRouteById(int ussdRouteId)
+        public async Task<RequestViewModel> GetAPIRouteById(int apiRouteId)
         {
-            var response = await _httpClient.GetAsync($"GetRouteById/{ussdRouteId}");
+            var response = await _httpClient.GetAsync($"GetRouteById/{apiRouteId}");
 
             if (!response.IsSuccessStatusCode)
             {

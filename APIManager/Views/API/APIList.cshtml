@@ -5,14 +5,14 @@
     <link href="@Url.Content("~/css/service-list.css")" rel="stylesheet" type="text/css" />
 }
 
-<h1>USSD Manager</h1>
+<h1>API Manager</h1>
 
 <div class="container">
     <div class="row">
         <div class="col-12 mb-3 mb-lg-5">
             <div class="overflow-hidden card table-nowrap table-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">USSD List</h5>
+                    <h5 class="mb-0">API List</h5>
                 </div>
                 <div class="table-responsive table-service-list">
                     <table class="table mb-0">
@@ -42,8 +42,8 @@
                                     <td>@route.Route.MethodType?.MethodTypeName</td>
                                     <td>
                                         @Html.ActionLink("",
-                                                 "InsertUpdateUSSD",
-                                                 "USSD",
+                                                 "InsertUpdateAPI",
+                                                 "API",
                                                  new
                                                  {
                                                      route.Route.RouteId
@@ -54,8 +54,8 @@
                                     </td>
                                     <td>
                                         @Html.ActionLink("",
-                                                 "DeleteUSSD",
-                                                 "USSD",
+                                                 "DeleteAPI",
+                                                 "API",
                                                  new
                                                  {
                                                      route.Route.RouteId
@@ -72,7 +72,7 @@
         </div>
     </div>
     <div>
-        @Html.ActionLink("Add Route", "InsertUpdateUSSD", "USSD", new
+        @Html.ActionLink("Add Route", "InsertUpdateAPI", "API", new
             {
                 routeId = 0
             }, new { @class = "btn btn-primary" })

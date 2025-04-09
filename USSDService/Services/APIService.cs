@@ -7,37 +7,38 @@ using SmartSwitchV2.Core.Shared.Utilities;
 using Newtonsoft.Json;
 using SmartSwitchV2.Core.Shared.Enums;
 
-namespace USSDService.Services
+namespace APIService.Services
 {
-    public class USSDService : IUSSDService
+    public class APIService : IAPIService
     {
         private readonly IRouteRepository _routeRepository;
         private readonly IResponseRepository _responseRepository;
 
-        public USSDService(IRouteRepository routeRepository, IResponseRepository responseRepository)
+        public APIService(IRouteRepository routeRepository, IResponseRepository responseRepository)
         {
             _routeRepository = routeRepository;
             _responseRepository = responseRepository;
         }
 
-        public List<Route> GetAllUSSDRoutes(bool lazyLoad) =>        
+        //TODO: Get SystemId from appsettings
+        public List<Route> GetAllAPIRoutes(bool lazyLoad) =>        
             _routeRepository.GetAllRoutes(2, lazyLoad);
         
 
-        public Route GetUSSDRouteById(int routeId) =>
+        public Route GetAPIRouteById(int routeId) =>
             _routeRepository.GetRouteModelByRouteId(routeId);
 
-        public bool UpdateUSSDRoute(SmartSwitchV2.Core.Shared.Entities.Route route)
+        public bool UpdateAPIRoute(SmartSwitchV2.Core.Shared.Entities.Route route)
         {
             var routeToUpdate = ClassConverter.RouteConvert(route);
 
             return _routeRepository.InsertUpdateRoute(routeToUpdate);
         }
 
-        public Route GetUSSDRouteByName(string name)
+        public Route GetAPIRouteByName(string name)
         => _routeRepository.GetRouteModelByRouteName(name);        
 
-        public async Task<Response> ProcessUSSDRequest(Request request)
+        public async Task<Response> ProcessAPIRequest(Request request)
         {
             var route = _routeRepository.GetRouteModelByRouteName(request.RouteName);
             var linkedRoutes = _routeRepository.GetLinkedRoutes(route.RouteId);
@@ -58,7 +59,7 @@ namespace USSDService.Services
                     && lr.RetryAttempts.Value > 0
                     && !String.IsNullOrEmpty(lr.FailOverURL))
                     {
-                        _routeRepository.InsertLog(LogType.Warning.ToString(), "USSD", lr.RoutePath, "URL Failed - retrying with failover", JsonConvert.SerializeObject(lr, Formatting.None, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore}), failed: true);
+                        _routeRepository.InsertLog(LogType.Warning.ToString(), "API", lr.RoutePath, "URL Failed - retrying with failover", JsonConvert.SerializeObject(lr, Formatting.None, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore}), failed: true);
                         for (int i = 1; i < lr.RetryAttempts; i++)
                         {
                             lr.RoutePath = lr.FailOverURL;
@@ -125,7 +126,7 @@ namespace USSDService.Services
         {
             var httpRequest = RequestMapper.MapRouteToHTTPRequest(route, request);
             HttpClient httpClient = new();
-            _routeRepository.InsertLog(LogType.Info.ToString(), "USSD", route.RoutePath, "Executing route", JsonConvert.SerializeObject(route, Formatting.None, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }), failed: false);
+            _routeRepository.InsertLog(LogType.Info.ToString(), "API", route.RoutePath, "Executing route", JsonConvert.SerializeObject(route, Formatting.None, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }), failed: false);
             var response = httpClient.Send(httpRequest);
 
             var responseObject = new Response()
@@ -135,7 +136,7 @@ namespace USSDService.Services
                 ResponseStatus = response.StatusCode
             };
 
-            _routeRepository.InsertLog(LogType.Info.ToString(), "USSD", route.RoutePath, "Request response", $"Status Code: {responseObject.ResponseStatus}; Reasone Phrase: {(responseObject.ReasonPhrase != null ? responseObject.ReasonPhrase : "N/A")};", failed: responseObject.ResponseStatus != System.Net.HttpStatusCode.OK);
+            _routeRepository.InsertLog(LogType.Info.ToString(), "API", route.RoutePath, "Request response", $"Status Code: {responseObject.ResponseStatus}; Reasone Phrase: {(responseObject.ReasonPhrase != null ? responseObject.ReasonPhrase : "N/A")};", failed: responseObject.ResponseStatus != System.Net.HttpStatusCode.OK);
 
             return responseObject;
         }     

@@ -1,5 +1,5 @@
 using SmartSwitchV2.DataLayer.HTTPDefinitions;
-using USSDService.Services;
+using APIService.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using ClaimsService.Models.Repositories;
@@ -26,7 +26,7 @@ builder.Services.AddDbContext<SmartSwitchDbContext>(options =>
 
 builder.Services.AddScoped<IRouteRepository, RouteRepository>();
 builder.Services.AddScoped<IResponseRepository, ResponseRepository>();
-builder.Services.AddScoped<IUSSDService, USSDService.Services.USSDService>();
+builder.Services.AddScoped<IAPIService, APIService.Services.APIService>();
 
 var app = builder.Build();
 

@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClaimsService", "APIService
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIManager", "APIManager\APIManager.csproj", "{2AC55C62-DDF3-42FC-B0A7-3D02775158F2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "USSDService", "USSDService\USSDService.csproj", "{B38F789D-601D-42F7-9769-21A23D2B9C66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIService", "USSDService\APIService.csproj", "{B38F789D-601D-42F7-9769-21A23D2B9C66}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartSwitchV2.DataLayer", "SmartswitchV2.DataLayer\SmartSwitchV2.DataLayer.csproj", "{66C30268-3999-4253-8899-7B1A8C0DD3DB}"
 EndProject

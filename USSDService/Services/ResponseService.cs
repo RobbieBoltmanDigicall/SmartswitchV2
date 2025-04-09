@@ -1,6 +1,6 @@
 ﻿using SmartSwitchV2.DataLayer.Repositories.Interfaces;
 
-namespace USSDService.Services
+namespace APIService.Services
 {
     public class ResponseService
     {
