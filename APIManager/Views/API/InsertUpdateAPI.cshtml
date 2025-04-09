@@ -7,7 +7,7 @@
 
 <h2>Edit Request</h2>
 
-<form asp-action="InsertUpdateUSSD" method="post">
+<form asp-action="InsertUpdateAPI" method="post">
     <input asp-for="Route.RouteBody.RouteBodyId" type="hidden" />
     <input id="hdn-method-type-name" asp-for="Route.MethodType.MethodTypeName" type="hidden"/>
     <input id="hdn-route-type-name" asp-for="Route.RouteType.RouteTypeName" type="hidden"/>
@@ -267,5 +267,5 @@
 </form>
 
 @section Scripts {
-    <script src="~/js/ussdEdit.js"></script>
+    <script src="~/js/apiEdit.js"></script>
 }

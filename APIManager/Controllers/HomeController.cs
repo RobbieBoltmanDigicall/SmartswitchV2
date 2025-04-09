@@ -1,5 +1,5 @@
 using APIManager.Models;
-using APIManager.Services.USSDs;
+using APIManager.Services.APIs;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -9,35 +9,40 @@ namespace APIManager.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly IUSSDService _ussdService;
+        private readonly IAPIService _apiService;
 
-        public HomeController(ILogger<HomeController> logger, IHttpClientFactory httpClientFactory, IUSSDService ussdService)
+        public HomeController(ILogger<HomeController> logger, IHttpClientFactory httpClientFactory, IAPIService apiService)
         {
             _logger = logger;
             _httpClientFactory = httpClientFactory;
-            _ussdService = ussdService;
+            _apiService = apiService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var logs = await _ussdService.ReadLogs(DateTime.Now.AddDays(-7), DateTime.Now);
+            var logs = await _apiService.ReadLogs(DateTime.Now.AddDays(-7), DateTime.Now);
             DashboardViewModel result = new DashboardViewModel();
-            List<LogViewModel> logViewModels = logs.Select(l => new LogViewModel()
+            List<LogViewModel> logViewModels = new List<LogViewModel>();
+
+            if (logs != null)
             {
-                System = l.System,
-                RequestURL = l.RequestURL,
-                LogType = l.LogType,
-                Message = l.Message,
-                Payload = l.Payload,
-                CreatedDateTime = l.CreatedDateTime,
-                Failed = l.Failed
-            }).ToList();
+                logViewModels = logs.Select(l => new LogViewModel()
+                {
+                    System = l.System,
+                    RequestURL = l.RequestURL,
+                    LogType = l.LogType,
+                    Message = l.Message,
+                    Payload = l.Payload,
+                    CreatedDateTime = l.CreatedDateTime,
+                    Failed = l.Failed
+                }).ToList();
+            }
 
             //TODO: Get systems dynamically
             result.Systems = new List<SystemDashboardViewModel>() {
                 new SystemDashboardViewModel()
                 {
-                    SystemName = "USSD",
+                    SystemName = "API",
                     AmountOfRequests = logViewModels.Where(l => l.Message == "Executing route").Count(),
                     FailedRequests = logViewModels.Where(l => l.Message == "URL Failed - retrying with failover").Count(),
                     MostCommonFailedUrls = logViewModels.Where(l => l.Message == "URL Failed - retrying with failover")
@@ -48,23 +53,25 @@ namespace APIManager.Controllers
 
             result.Systems.ForEach(s => s.FailedRatio = (float)s.FailedRequests / s.AmountOfRequests);
 
-            result.Systems[0].RequestsPerHour = logs
-            .Where(log => log.CreatedDateTime >= DateTime.Now.AddDays(-7) && log.Message == "Executing route")
-            .GroupBy(log => new
+            if (logs != null)
             {
-                log.CreatedDateTime.Year,
-                log.CreatedDateTime.Month,
-                log.CreatedDateTime.Day,
-                log.CreatedDateTime.Hour
-            })
-            .Select(group => new RequestPerHour
-            {
-                RequestDateTimeInterval = new DateTime(group.Key.Year, group.Key.Month, group.Key.Day, group.Key.Hour, 0, 0),
-                Count = group.Count()
-            })
-            .OrderBy(result => result.RequestDateTimeInterval)
-            .ToList();
-
+                result.Systems[0].RequestsPerHour = logs
+                .Where(log => log.CreatedDateTime >= DateTime.Now.AddDays(-7) && log.Message == "Executing route")
+                .GroupBy(log => new
+                {
+                    log.CreatedDateTime.Year,
+                    log.CreatedDateTime.Month,
+                    log.CreatedDateTime.Day,
+                    log.CreatedDateTime.Hour
+                })
+                .Select(group => new RequestPerHour
+                {
+                    RequestDateTimeInterval = new DateTime(group.Key.Year, group.Key.Month, group.Key.Day, group.Key.Hour, 0, 0),
+                    Count = group.Count()
+                })
+                .OrderBy(result => result.RequestDateTimeInterval)
+                .ToList();
+            }
             result.LogViewModels = logViewModels;
 
             return View(result);

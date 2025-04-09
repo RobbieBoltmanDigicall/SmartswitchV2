@@ -1,6 +1,0 @@
-@USSDService_HostAddress = http://localhost:5155
-
-GET {{USSDService_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

@@ -1,5 +1,5 @@
 using APIManager.Services.Claims;
-using APIManager.Services.USSDs;
+using APIManager.Services.APIs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<IClaimsService, APIManager.Services.Claims.ClaimsService>();
-builder.Services.AddScoped<IUSSDService, APIManager.Services.USSDs.USSDService>();
+builder.Services.AddScoped<IAPIService, APIService>();
 
 var app = builder.Build();
 

@@ -1,6 +1,6 @@
 ﻿using APIManager.Models;
 using APIManager.Services.Claims;
-using APIManager.Services.USSDs;
+using APIManager.Services.APIs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,26 +10,26 @@ using Route = SmartSwitchV2.Core.Shared.Entities.Route;
 
 namespace APIManager.Controllers
 {
-    public class USSDController : Controller
+    public class APIController : Controller
     {
-        private readonly ILogger<USSDController> _logger;
-        private readonly IUSSDService _ussdService;
+        private readonly ILogger<APIController> _logger;
+        private readonly IAPIService _apiService;
 
-        public USSDController(ILogger<USSDController> logger,
-            IUSSDService ussdService
+        public APIController(ILogger<APIController> logger,
+            IAPIService apiService
             )
         {
             _logger = logger;
-            _ussdService = ussdService;
+            _apiService = apiService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> InsertUpdateUSSD(int routeId)
+        public async Task<IActionResult> InsertUpdateAPI(int routeId)
         {
             try
             {
                 RequestViewModel viewModel;
-                viewModel = routeId != 0 ? await _ussdService.GetUSSDRouteById(routeId) 
+                viewModel = routeId != 0 ? await _apiService.GetAPIRouteById(routeId) 
                     : new RequestViewModel() 
                     { 
                         Route = new Route()
@@ -91,7 +91,7 @@ namespace APIManager.Controllers
                     new SelectListItem() { Text = "Uri", Value = "19" }
                 };
 
-                var listRoutesInSystem = await _ussdService.ListAllUSSDRoutes();                
+                var listRoutesInSystem = await _apiService.ListAllAPIRoutes();                
                 var routesSelectList = listRoutesInSystem
                     .Where(r => r.Route.RouteId != viewModel.Route.RouteId && !r.Route.RouteParentId.HasValue)
                     .Select(r => new SelectListItem() { Value = r.Route.RouteId.ToString(), Text = r.Route.RouteName}).ToList();
@@ -104,7 +104,7 @@ namespace APIManager.Controllers
                 viewModel.DataTypes = new SelectList(dataTypes);
                 viewModel.ApplicationTypes = new SelectList(applicationTypes);
 
-                return View("~/Views/USSD/InsertUpdateUSSD.cshtml", viewModel);
+                return View("~/Views/API/InsertUpdateAPI.cshtml", viewModel);
             }
             catch (Exception ex)
             {;
@@ -113,18 +113,18 @@ namespace APIManager.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> InsertUpdateUSSD(RequestViewModel requestViewModel)
+        public async Task<IActionResult> InsertUpdateAPI(RequestViewModel requestViewModel)
         {
-            var result = await _ussdService.UpdateRequest(requestViewModel.Route);
+            var result = await _apiService.UpdateRequest(requestViewModel.Route);
             if (result)
-                return await USSDList();
+                return await APIList();
             return BadRequest();
         }        
 
-        public async Task<IActionResult> USSDList()
+        public async Task<IActionResult> APIList()
         {
-            var viewModel = await _ussdService.ListAllUSSDRoutes();
-            return View("~/Views/USSD/USSDList.cshtml", viewModel);
+            var viewModel = await _apiService.ListAllAPIRoutes();
+            return View("~/Views/API/APIList.cshtml", viewModel);
         }
 
         public IActionResult Index()
