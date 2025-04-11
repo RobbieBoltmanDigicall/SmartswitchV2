@@ -70,9 +70,18 @@ namespace APIService.Services
                         }
                     }
 
-                    if (responseObject.ResponseStatus == System.Net.HttpStatusCode.OK && lr.RouteParentId.HasValue)
+                    if (responseObject.ResponseStatus == System.Net.HttpStatusCode.OK)
                     {
-                        var content = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseObject.ResponseContent);
+                        Dictionary<string, string> content = new Dictionary<string, string>();
+                        //TODO: Ensure better error handling and more robustness with different response types
+                        try
+                        {
+                            content = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseObject.ResponseContent);
+                        }
+                        catch 
+                        { 
+                        
+                        }
                         if (content != null)
                         {
                             foreach (var item in content)
