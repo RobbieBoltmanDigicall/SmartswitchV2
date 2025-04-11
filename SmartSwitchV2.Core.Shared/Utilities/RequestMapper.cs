@@ -84,8 +84,17 @@ namespace SmartSwitchV2.Core.Shared.Utilities
                     bodyParamsPairs.Add(param.BodyKey, bodyParamPair.Value.Value ?? param.BodyValue);
                 }
 
-                var bodyParamsString = JsonConvert.SerializeObject(bodyParamsPairs);
-                request.Content = new StringContent(bodyParamsString, null, $"Application/{route.RouteBody.ApplicationType.ApplicationTypeName}");
+                //TODO: Rather use enums for checking 
+                if (route.RouteBody.BodyType.BodyTypeName == "x-www-form-urlencoded")
+                {
+                    var content = new FormUrlEncodedContent(bodyParamsPairs);
+                    request.Content = content;
+                }
+                else
+                {
+                    var bodyParamsString = JsonConvert.SerializeObject(bodyParamsPairs);
+                    request.Content = new StringContent(bodyParamsString, Encoding.UTF8, $"Application/{route.RouteBody.ApplicationType.ApplicationTypeName}");
+                }
             }
 
             return request;

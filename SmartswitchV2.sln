@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClaimsService", "APIService\ClaimsService.csproj", "{0DC385E1-A0BE-4A34-A343-5E929F17F4A3}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIManager", "APIManager\APIManager.csproj", "{2AC55C62-DDF3-42FC-B0A7-3D02775158F2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "APIService", "USSDService\APIService.csproj", "{B38F789D-601D-42F7-9769-21A23D2B9C66}"
@@ -19,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0DC385E1-A0BE-4A34-A343-5E929F17F4A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0DC385E1-A0BE-4A34-A343-5E929F17F4A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0DC385E1-A0BE-4A34-A343-5E929F17F4A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0DC385E1-A0BE-4A34-A343-5E929F17F4A3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2AC55C62-DDF3-42FC-B0A7-3D02775158F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2AC55C62-DDF3-42FC-B0A7-3D02775158F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AC55C62-DDF3-42FC-B0A7-3D02775158F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
